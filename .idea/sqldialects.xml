@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/Authentication.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/BillDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/CartDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/ChatRoomDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/DAO.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/DiscountDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/MessageDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/PaymentDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/ProductDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/ProductTypeDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/ReviewDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/SearchDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/SizeDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/TradeMarkDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/TransportDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/UserDB.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/dao/VoucherDB.java" dialect="GenericSQL" />
+  </component>
+</project>
