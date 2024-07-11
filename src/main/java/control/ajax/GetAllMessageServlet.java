@@ -43,7 +43,8 @@ public class GetAllMessageServlet extends HttpServlet {
             message1.setMessageID(message.getMessageID());
             message1.setContent(message.getContent());
             message1.setTimestamp(message.getTimestamp());
-            message1.setSender(message.getUser().getName());
+            message1.setSender(message.getSender());
+            message1.setUser(message.getUser());
             message1.setChatRoomID(message.getChatRoom().getChatRoomID());
             listResult.add(message1);
         }

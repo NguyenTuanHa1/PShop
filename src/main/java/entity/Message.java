@@ -10,7 +10,7 @@ public class Message {
     private ChatRoom chatRoom;
     private User user;
 
-    private String sender;
+    private User sender;
     private int chatRoomID;
 
     public int getChatRoomID() {
@@ -21,11 +21,11 @@ public class Message {
         this.chatRoomID = chatRoomID;
     }
 
-    public String getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 

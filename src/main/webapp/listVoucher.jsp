@@ -93,7 +93,15 @@
                     <td>${voucher.endDate}</td>
                     <td>
                         <a href="/editVoucher?voucherID=${voucher.voucherId}" class="btn btn-warning">Sửa</a>
-                        <a href="/deleteVoucher?voucherID=${voucher.voucherId}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa voucher này?');">Xóa</a>
+                        <c:choose>
+                            <c:when test="${voucher.status == true}">
+                                <a href="/unactiveVoucher?voucherID=${voucher.voucherId}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn vô hiệu voucher này?');">Vô hiệu</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/activeVoucher?voucherID=${voucher.voucherId}" class="btn btn-success">Kích hoạt</a>
+                            </c:otherwise>
+                        </c:choose>
+
                     </td>
                 </tr>
             </c:forEach>

@@ -1,6 +1,6 @@
 package control.admin;
 
-import dao.DAO;
+import dao.TradeMarkDB;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,15 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/deleteVoucher")
-public class DeleteVoucherServlet extends HttpServlet {
+@WebServlet(name = "DeleteTrademark", urlPatterns = {"/deleteTrademark"})
+public class DeleteTrademark extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        int voucherId = Integer.parseInt(request.getParameter("voucherID"));
-        DAO dao = new DAO();
-        dao.deleteVoucher(voucherId);
-        response.sendRedirect("/listVoucher");
+        TradeMarkDB trademarkDB = new TradeMarkDB();
+        trademarkDB.deleteTrademark(Integer.parseInt(request.getParameter("trademarkId")));
+        response.sendRedirect("listTrademark");
     }
 }

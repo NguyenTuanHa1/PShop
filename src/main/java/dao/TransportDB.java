@@ -6,6 +6,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransportDB extends DBTest{
+    public void deleteTransport(int transportId) {
+        String query = "DELETE FROM transport WHERE transportId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, transportId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+    public void updateTransport(Transport transport) {
+        String query = "UPDATE transport SET transportName = ?, priceTransPort = ?, descriptionTransport = ? WHERE transportId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, transport.getTransportName());
+            ps.setInt(2, transport.getPriceTransPort());
+            ps.setString(3, transport.getDescriptionTransport());
+            ps.setInt(4, transport.getTransportId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
     public Transport getTransportById(int transportId) {
         String query = "SELECT * FROM transport WHERE transportId = ?";
         try {

@@ -138,6 +138,15 @@
                 <div class="card shadow-sm">
                     <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Bill Management">
                     <div class="card-body text-center">
+                        <a href="/dashboard"><h5 class="card-title">Dashboard</h5></a>
+                        <p class="card-text">View statistics of your application</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Bill Management">
+                    <div class="card-body text-center">
                         <a href="/listBillAdmin"><h5 class="card-title">Bill Management</h5></a>
                         <p class="card-text">Manage bills in your website</p>
                     </div>
@@ -174,7 +183,7 @@
                 <div class="card shadow-sm">
                     <img src="assets/img/we-provide-1.jpg" class="card-img-top" alt="Add Product Type">
                     <div class="card-body text-center">
-                        <a href="/addTypeProduct"><h5 class="card-title">Add Product Type</h5></a>
+                        <a href="/list-product-type"><h5 class="card-title">Product Type</h5></a>
                         <p class="card-text">Manage product types in your application</p>
                     </div>
                 </div>
@@ -183,7 +192,7 @@
                 <div class="card shadow-sm">
                     <img src="assets/img/we-provide-2.jpg" class="card-img-top" alt="Add Size">
                     <div class="card-body text-center">
-                        <a href="/addSize"><h5 class="card-title">Add Size</h5></a>
+                        <a href="/list-size"><h5 class="card-title">Size</h5></a>
                         <p class="card-text">Manage product sizes in your application</p>
                     </div>
                 </div>
@@ -192,7 +201,7 @@
                 <div class="card shadow-sm">
                     <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Add Trademark">
                     <div class="card-body text-center">
-                        <a href="/addTrademark"><h5 class="card-title">Add Trademark</h5></a>
+                        <a href="/list-trademark"><h5 class="card-title">Trademark</h5></a>
                         <p class="card-text">Manage trademarks in your application</p>
                     </div>
                 </div>
@@ -201,7 +210,7 @@
                 <div class="card shadow-sm">
                     <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Add Payment">
                     <div class="card-body text-center">
-                        <a href="/addPayment"><h5 class="card-title">Add Payment</h5></a>
+                        <a href="/list-payment"><h5 class="card-title">Payment</h5></a>
                         <p class="card-text">Manage payment methods in your application</p>
                     </div>
                 </div>
@@ -210,7 +219,7 @@
                 <div class="card shadow-sm">
                     <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Add Transport">
                     <div class="card-body text-center">
-                        <a href="/addTransport"><h5 class="card-title">Add Transport</h5></a>
+                        <a href="/list-transport"><h5 class="card-title">Transport</h5></a>
                         <p class="card-text">Manage transport methods in your application</p>
                     </div>
                 </div>
@@ -221,6 +230,15 @@
                     <div class="card-body text-center">
                         <a href="/chatAdmin"><h5 class="card-title">Chat</h5></a>
                         <p class="card-text">Chat with your customers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm">
+                    <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Add Transport">
+                    <div class="card-body text-center">
+                        <a href="/listShipper"><h5 class="card-title">Shipper</h5></a>
+                        <p class="card-text">Manager shipper in your application</p>
                     </div>
                 </div>
             </div>

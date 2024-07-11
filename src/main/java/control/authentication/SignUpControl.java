@@ -38,25 +38,25 @@ public class SignUpControl extends HttpServlet {
         String re_pass = request.getParameter("repassword");
         String email = request.getParameter("email");
         if (name.trim().isEmpty()) {
-            request.setAttribute("errorMsg", "Tên không được để trống!");
+            request.setAttribute("errorRegMessage", "Tên không được để trống!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
         // Regex to check email format
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         if (!email.matches(emailRegex)) {
-            request.setAttribute("errorMsg", "Email không hợp lệ!");
+            request.setAttribute("errorRegMessage", "Email không hợp lệ!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         if (!pass.matches(passwordRegex)) {
-            request.setAttribute("errorMsg", "Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
+            request.setAttribute("errorRegMessage", "Mật khẩu phải chứa ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
         if(!pass.equals(re_pass)){
-            request.setAttribute("errorMsg", "Mật khẩu không khớp!");
+            request.setAttribute("errorRegMessage", "Mật khẩu không khớp!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
         }
@@ -67,10 +67,10 @@ public class SignUpControl extends HttpServlet {
             authenticationDB.signup(name, pass, email);
             int userId = userDB.findUserByEmail(email).getUserID();
             cartDB.createCart(userId);
-            request.setAttribute("successMsg", "Đăng ký thành công, vui lòng kiểm tra email để xác nhận tài khoản!");
+            request.setAttribute("successRegMsg", "Đăng ký thành công, vui lòng kiểm tra email để xác nhận tài khoản!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }else{
-            request.setAttribute("errorMsg", "Tài khoản đã tồn tại!");
+            request.setAttribute("errorRegMessage", "Tài khoản đã tồn tại!");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }

@@ -98,6 +98,12 @@
                             <input type="hidden" name="billId" value="${bill.billId}">
                             <button type="submit" class="btn btn-primary">Xem chi tiết</button>
                         </form>
+                        <c:if test="${bill.statusBill eq 'Đã giao'}">
+                            <form action="/buyAgain" method="post">
+                                <input type="hidden" name="billId" value="${bill.billId}">
+                                <button type="submit" class="btn btn-success" onclick="alert('Bạn có chắc chắn muốn mua lại đơn hàng này một lần nữa?')">Mua lại</button>
+                            </form>
+                        </c:if>
                         <c:if test="${bill.statusBill ne 'Đã giao' && bill.statusBill ne 'Đã hủy'}">
                             <form action="/cancelBill" method="post">
                                 <input type="hidden" name="billId" value="${bill.billId}">

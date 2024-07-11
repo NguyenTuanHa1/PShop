@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageDB {
+public class MessageDB extends DBTest {
     private Connection conn;
     private PreparedStatement ps;
     private ResultSet rs;
@@ -50,8 +50,7 @@ public class MessageDB {
     public boolean insertMessage(String content, int chatRoomID, int userID) {
         String query = "INSERT INTO messages (content, chatRoomID, userID) VALUES (?, ?, ?)";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, content);
             ps.setInt(2, chatRoomID);
@@ -60,11 +59,7 @@ public class MessageDB {
             return true;
         } catch (SQLException ignored) {
         } finally {
-            try {
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException ignored) {
-            }
+            closeConnection();
         }
         return false;
     }

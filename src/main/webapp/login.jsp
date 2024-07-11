@@ -92,8 +92,12 @@
                     <form action="/login" method="post">
                         <input type="email" name="email" value="${username}" placeholder="Username or email address"/>
                         <input type="password" name="password" value="${password}" placeholder="Password"/>
-                        <p>${errorMsgLogin}</p>
-                        <p>${successMsgLogin}</p>
+                        <c:if test="${not empty errorMsgLogin}">
+                            <div class="alert alert-danger mt-3">${errorMsgLogin}</div>
+                        </c:if>
+                        <c:if test="${not empty successMsgLogin}">
+                            <div class="alert alert-success mt-3">${successMsgLogin}</div>
+                        </c:if>
                         <div class="remember">
                             <div class="first">
                                 <input type="checkbox" name="remember" id="checkbox">
@@ -124,9 +128,13 @@
                         <input type="email" name="email" placeholder="Email address">
                         <input type="password" name="password" placeholder="Password">
                         <input type="password" name="repassword" placeholder="Re-type Password">
-
+                        <c:if test="${not empty errorRegMessage}">
+                            <div class="alert alert-danger mt-3">${errorRegMessage}</div>
+                        </c:if>
+                        <c:if test="${not empty successRegMessage}">
+                            <div class="alert alert-success mt-3">${successRegMessage}</div>
+                        </c:if>
                         <p>Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our privacy policy.</p>
-                        <p>${error}</p>
                         <button type="submit" class="button">Register</button>
                     </form>
                 </div>

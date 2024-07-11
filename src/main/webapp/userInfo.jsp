@@ -92,6 +92,12 @@
             <div class="row">
                 <div class="col-lg-6">
                     <h2>User Details</h2>
+                    <c:if test="${not empty errorMessage}">
+                        <div class="alert alert-danger mt-3">${errorMessage}</div>
+                    </c:if>
+                    <c:if test="${not empty successMessage}">
+                        <div class="alert alert-success mt-3">${successMessage}</div>
+                    </c:if>
                     <div class="form-group mt-5">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" value="${userInfo.name}" class="form-control">

@@ -8,6 +8,107 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BillDB extends DBTest{
+    public BillDB() {
+        super();
+    }
+
+    public void confirmShipped(int billId, int shipperId) {
+        String query = "UPDATE bill SET statusBill = 'Đã giao' WHERE billId = ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, billId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+
+    public List<Bill> getAllBillToShipper() {
+        List<Bill> list = new ArrayList<>();
+        String query = "SELECT b.*, t.transportName, p.typePayment FROM bill b\n"
+                + "JOIN transport t ON b.transportId = t.transportId\n"
+                + "JOIN payment p ON b.paymentId = p.paymentId\n"
+                + "WHERE b.statusBill = 'Đã xác nhận'";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Bill(rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getFloat(12),
+                        rs.getInt(13),
+                        rs.getInt(14),
+                        rs.getInt(15),
+                        rs.getInt(16),
+                        rs.getDate(17),
+                        rs.getDate(18),
+                        rs.getString(19),
+                        rs.getString(20)));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        System.out.println(list.size());
+        return list;
+    }
+
+    public boolean buyAgain(int billID) {
+        String query = "INSERT INTO bill (userId, userName, email, city, district, phone, address, note, voucherCode, transportId, paymentId, totalPrice) "
+                + "SELECT userId, userName, email, city, district, phone, address, note, voucherCode, transportId, paymentId, totalPrice "
+                + "FROM bill WHERE billId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, billID);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
+
+    public boolean checkQuantity(int billID) {
+        String query = "SELECT bd.productId, bd.quantity, p.quantity AS quantityInStock "
+                + "FROM billDetail bd "
+                + "JOIN products p ON bd.productId = p.productId "
+                + "WHERE bd.billId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, billID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                if (rs.getInt("quantity") > rs.getInt("quantityInStock")) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
+
     public void addBillDetail(List<CartProducts> listCartProducts, int billId) {
         String query = "INSERT INTO billdetail (billId, productId, quantity, priceBillDetail) VALUES (?, ?, ?, ?)";
         try {
@@ -33,8 +134,7 @@ public class BillDB extends DBTest{
     public Bill addBill(Bill bill) {
         String query = "INSERT INTO bill (userId, userName, email, city, district, phone, address, note, voucherCode, transportId, paymentId, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, bill.getUserId());
             ps.setString(2, bill.getUserName());
@@ -50,12 +150,14 @@ public class BillDB extends DBTest{
             ps.setInt(12, bill.getTotalPrice());
             ps.executeUpdate();
             rs = ps.getGeneratedKeys();
-            if (rs.next()) {
+            while (rs.next()) {
                 bill.setBillId(rs.getInt(1));
             }
             return bill;
         } catch (Exception e) {
             System.out.println(e);
+        } finally {
+            closeConnection();
         }
         return null;
     }
@@ -96,8 +198,6 @@ public class BillDB extends DBTest{
             }
         } catch (Exception e) {
             System.out.println(e);
-        } finally {
-            closeConnection();
         }
         return null;
     }

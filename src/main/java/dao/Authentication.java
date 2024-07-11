@@ -21,8 +21,7 @@ public class Authentication extends DBTest {
                 "AND u.password = ?";
 
         try {
-            Connection conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, hashPassword);
@@ -51,13 +50,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return null;
     }
@@ -65,7 +58,7 @@ public class Authentication extends DBTest {
     public boolean changePassword(int id, String password) {
         String query = "UPDATE users SET password = ? WHERE userID = ?";
         try {
-            conn = new DBContext().getConnection();//mo ket noi voi sql
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, EncryptUtils.encrypt(password));
             ps.setInt(2, id);
@@ -74,12 +67,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return false;
     }
@@ -87,8 +75,7 @@ public class Authentication extends DBTest {
     public boolean checkToken(String token) {
         String query = "select * from users where token = ?";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, token);
             rs = ps.executeQuery();
@@ -98,13 +85,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return false;
     }
@@ -112,8 +93,7 @@ public class Authentication extends DBTest {
     public boolean resetPassword(String token, String password) {
         String query = "UPDATE users SET password = ?, token = null WHERE token = ?";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, EncryptUtils.encrypt(password));
             ps.setString(2, token);
@@ -122,12 +102,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return false;
     }
@@ -135,8 +110,7 @@ public class Authentication extends DBTest {
         String query = "select * from users\n"
                 + "where email = ?";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, email);
             rs = ps.executeQuery();
@@ -146,13 +120,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return false;
     }
@@ -165,8 +133,7 @@ public class Authentication extends DBTest {
         String query = "INSERT INTO users (name, password, email, token) " +
                 "VALUES (?, ?, ?, ?)";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, hashPassword);
@@ -177,12 +144,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
     }
 
@@ -191,20 +153,14 @@ public class Authentication extends DBTest {
     public void verifyAccount(String token) {
         String query = "update users set status = 1, token = null where token = ?";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, token);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
     }
 
@@ -212,8 +168,7 @@ public class Authentication extends DBTest {
     public boolean checkFB(String idFB) {
         String query = "select * from users where idFacebook = ?";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, idFB);
             rs = ps.executeQuery();
@@ -223,13 +178,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-                rs.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return false;
     }
@@ -239,8 +188,7 @@ public class Authentication extends DBTest {
         String query = "INSERT INTO users (name, avatar, idFacebook) " +
                 "VALUES (?, ?, ?)";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, avatar);
@@ -249,12 +197,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
     }
 
@@ -265,8 +208,7 @@ public class Authentication extends DBTest {
                 "JOIN typeAccount t ON u.typeAccountId = t.typeAccountId " +
                 "WHERE u.idFacebook = ? ";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, idFB);
             rs = ps.executeQuery();
@@ -294,13 +236,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-                rs.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return null;
     }
@@ -309,8 +245,7 @@ public class Authentication extends DBTest {
     public boolean checkGoogle(String idGG) {
         String query = "select * from users where idGoogle = ?";
         try {
-            conn = DBContext.getConnection();
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, idGG);
             rs = ps.executeQuery();
@@ -320,13 +255,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-                rs.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return false;
     }
@@ -336,8 +265,7 @@ public class Authentication extends DBTest {
         String query = "INSERT INTO users (name, avatar, idGoogle) " +
                 "VALUES (?, ?, ?)";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, name);
             ps.setString(2, avatar);
@@ -346,12 +274,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
     }
 
@@ -362,8 +285,7 @@ public class Authentication extends DBTest {
                 "JOIN typeAccount t ON u.typeAccountId = t.typeAccountId " +
                 "WHERE u.idGoogle = ? ";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, idGG);
             rs = ps.executeQuery();
@@ -391,13 +313,7 @@ public class Authentication extends DBTest {
         } catch (Exception e) {
             System.out.println(e);
         } finally {
-            try {
-                conn.close();
-                ps.close();
-                rs.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
         return null;
     }
@@ -423,8 +339,7 @@ public class Authentication extends DBTest {
         String token = UUID.randomUUID().toString();
         String query = "UPDATE users SET token = ? WHERE email = ?";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
-            assert conn != null;
+            openConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, token);
             ps.setString(2, email);

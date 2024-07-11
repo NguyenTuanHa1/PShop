@@ -72,19 +72,7 @@ public class DAO {
         }
         return null;
     }
-    public boolean deleteVoucher(int voucherId) {
-        String query = "DELETE FROM voucher WHERE voucherId = ?";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, voucherId);
-            ps.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return false;
-    }
+
 
 
 

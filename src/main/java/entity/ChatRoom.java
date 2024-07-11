@@ -23,6 +23,16 @@ public class ChatRoom {
     private int userID;
     private int adminID;
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private String token;
+
     public int getUserID() {
         return userID;
     }

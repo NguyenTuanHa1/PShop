@@ -6,6 +6,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SizeDB extends DBTest{
+    public void deleteSize(int sizeId) {
+        String query = "delete from Size where sizeId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, sizeId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+    public void updateSize(String sizeId, String sizeName) {
+        String query = "UPDATE Size SET sizeName = ? WHERE sizeId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, sizeName);
+            ps.setString(2, sizeId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
     public List<Size> getAllSize() {
         List<Size> list = new ArrayList<>();
         String query = "select sizeId, sizeName, describeSize, weight from Size";

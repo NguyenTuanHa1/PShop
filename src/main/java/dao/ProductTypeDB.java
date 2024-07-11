@@ -8,6 +8,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductTypeDB extends DBTest{
+
+    public void updateProductType(int typeProductId, String typeProductName, String describeType) {
+        String query = "update TypeProduct set typeProductName = ?, describeType = ? where typeProductId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, typeProductName);
+            ps.setString(2, describeType);
+            ps.setInt(3, typeProductId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+    public void deleteProductType(int typeProductId) {
+        String query = "delete from TypeProduct where typeProductId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, typeProductId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+
     public List<TypeProduct> getAllProductType() {
         List<TypeProduct> list = new ArrayList<>();
         String query = "select typeProductId, typeProductName, describeType  from TypeProduct";
@@ -50,6 +80,26 @@ public class ProductTypeDB extends DBTest{
             closeConnection();
         }
         return list;
+    }
+
+    public TypeProduct findProductTypeByID(int typeProductId) {
+        String query = "select * from TypeProduct where typeProductId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, typeProductId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new TypeProduct(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return null;
     }
 
     public List<Product> getProductTypeById(int typeId) {

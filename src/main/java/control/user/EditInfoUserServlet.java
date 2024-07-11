@@ -45,23 +45,23 @@ public class EditInfoUserServlet extends HttpServlet {
         String description = request.getParameter("description");
 
         if (name.trim().isEmpty()) {
-            request.setAttribute("errorMsg", "Tên không được để trống!");
-            request.getRequestDispatcher("information.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Tên không được để trống!");
+            request.getRequestDispatcher("userInfo.jsp").forward(request, response);
             return;
         }
 
         // Check if the email is in the correct format
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         if (!email.matches(emailRegex)) {
-            request.setAttribute("errorMsg", "Email không hợp lệ!");
-            request.getRequestDispatcher("information.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Email không hợp lệ!");
+            request.getRequestDispatcher("userInfo.jsp").forward(request, response);
             return;
         }
 
         String phoneRegex = "0\\d{9,10}";
         if (!phoneNumber.matches(phoneRegex)) {
-            request.setAttribute("errorMsg", "Số điện thoại không hợp lệ!");
-            request.getRequestDispatcher("information.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Số điện thoại không hợp lệ!");
+            request.getRequestDispatcher("userInfo.jsp").forward(request, response);
             return;
         }
 
@@ -70,8 +70,8 @@ public class EditInfoUserServlet extends HttpServlet {
         long diff = currentDate.getTime() - userDOB.getTime();
         long diffYears = diff / (24 * 60 * 60 * 1000) / 365;
         if (diffYears < 12) {
-            request.setAttribute("errorMsg", "Ngày sinh không hợp lệ! Bạn phải lớn hơn 12 tuổi!");
-            request.getRequestDispatcher("information.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Ngày sinh không hợp lệ! Bạn phải lớn hơn 12 tuổi!");
+            request.getRequestDispatcher("userInfo.jsp").forward(request, response);
             return;
         }
 
@@ -105,7 +105,6 @@ public class EditInfoUserServlet extends HttpServlet {
 
         session.setAttribute("user", user);
 
-        // Chuyển hướng đến trang thông tin người dùng
         response.sendRedirect("/information");
     }
 

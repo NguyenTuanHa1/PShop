@@ -1,3 +1,4 @@
+<%@ page import="utils.JwtUtil" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -54,14 +55,36 @@
         .chat-box {
             height: 400px;
             overflow-y: auto;
+            padding: 10px;
         }
 
         .chat-message {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .chat-message.left {
+            background-color: #e9ecef;
+            text-align: left;
+        }
+
+        .chat-message.right {
+            background-color: #007bff;
+            color: white;
+            text-align: right;
         }
 
         .chat-message strong {
-            color: #007bff;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .chat-message .timestamp {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #6c757d;
         }
 
         .card-footer {
@@ -77,28 +100,28 @@
 <%--<%@include file="header.jsp" %>--%>
 <!-- header end -->
 
-<div class="container-fluid" style="">
+<div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-            <div class="sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            <i class="fas fa-user-friends"></i>
-                            Users
-                        </a>
-                    </li>
-                    <c:forEach items="${chatRoomList}" var="chatRoom">
-                        <li class="nav-item">
-                            <a class="nav-link user-link" href="#" data-roomid="${chatRoom.chatRoomID}" data-userid="${chatRoom.user.userID}">
-                                <img src="${chatRoom.user.avatar}" class="rounded-circle mr-2" alt="${chatRoom.user.name}" width="30" height="30">
-                                    ${chatRoom.user.name}
-                            </a>
-                        </li>
-                    </c:forEach>
-                </ul>
-            </div>
-        </nav>
+<%--        <nav class="col-md-2 d-none d-md-block bg-light sidebar">--%>
+<%--            <div class="sidebar-sticky">--%>
+<%--                <ul class="nav flex-column">--%>
+<%--                    <li class="nav-item">--%>
+<%--                        <a class="nav-link active" href="#">--%>
+<%--                            <i class="fas fa-user-friends"></i>--%>
+<%--                            Users--%>
+<%--                        </a>--%>
+<%--                    </li>--%>
+<%--                    <c:forEach items="${chatRoomList}" var="chatRoom">--%>
+<%--                        <li class="nav-item">--%>
+<%--                            <a class="nav-link user-link" href="#" data-token="${chatRoom.token}" data-userid="${chatRoom.user.userID}">--%>
+<%--                                <img src="${chatRoom.user.avatar}" class="rounded-circle mr-2" alt="${chatRoom.user.name}" width="30" height="30">--%>
+<%--                                    ${chatRoom.user.name}--%>
+<%--                            </a>--%>
+<%--                        </li>--%>
+<%--                    </c:forEach>--%>
+<%--                </ul>--%>
+<%--            </div>--%>
+<%--        </nav>--%>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -109,7 +132,7 @@
                 <div class="col-md-4">
                     <div class="list-group" id="userList">
                         <c:forEach items="${chatRoomList}" var="chatRoom">
-                            <a href="#" class="list-group-item list-group-item-action user-link" data-roomid="${chatRoom.chatRoomID}" data-userid="${chatRoom.user.userID}">
+                            <a href="#" class="list-group-item list-group-item-action user-link" data-token="${chatRoom.token}" data-userid="${chatRoom.user.userID}">
                                 <img src="${chatRoom.user.avatar}" class="rounded-circle mr-2" alt="${chatRoom.user.name}" width="30" height="30">
                                     ${chatRoom.user.name}
                             </a>
@@ -121,7 +144,7 @@
                         <div class="card-header">
                             <h5 id="chatWith">Chat with User</h5>
                         </div>
-                        <div class="card-body chat-box" id="chatBox" style="height: 400px; overflow-y: auto;">
+                        <div class="card-body chat-box" id="chatBox">
                             <!-- Chat messages will be loaded here -->
                         </div>
                         <div class="card-footer">
@@ -158,8 +181,8 @@
         %>
         let chatRoomID = null;
         let websocket = null;
-        function connect(chatRoomID){
-            websocket = new WebSocket("ws://localhost:8080/chatAdmin/" + chatRoomID);
+        function connect(token){
+            websocket = new WebSocket("ws://localhost:8080/chat/" + token + "/" + userID);
 
             websocket.onopen = function(message) {processOpen(message);};
             websocket.onmessage = function(message) {processMessage(message);};
@@ -170,7 +193,16 @@
                 console.log("Server connect... \n");
             }
             function processMessage(message) {
-                console.log(message);
+                const data = JSON.parse(message.data);
+                const timestamp = new Date(data.timestamp).toLocaleTimeString();
+                if (data.sender.userID !== ${sessionScope.user.userID}) {
+                    $('#chatBox').append(
+                        '<div class="chat-message left"> <strong>' + data.user.name + ':</strong>' +
+                            data.content +
+                            '<span class="timestamp">' + timestamp + '</span></div>'
+                    );
+                }
+                $('#chatBox').scrollTop($('#chatBox')[0].scrollHeight);
             }
             function processClose(message) {
                 console.log("Server disconnect... \n");
@@ -178,16 +210,29 @@
             function processError(message) {
                 console.log("Error... \n");
             }
-
-
         }
+
+        function disconnect(){
+            if(websocket !== null){
+                websocket.close();
+            }
+        }
+
         $('.user-link').on('click', function(e){
             e.preventDefault();
-            userID = $(this).data('userid');
-            chatRoomID = $(this).data('roomid');
+            let receiverID = $(this).data('userid');
+            token = $(this).data('token');
             $('#chatWith').text('Chat with ' + $(this).text());
-            connect(chatRoomID);
-            loadChat(userID);
+            disconnect();
+            connect(token);
+
+            loadChat(receiverID);
+        });
+
+        $('#chatInput').on('keypress', function(e){
+            if(e.which === 13){
+                $('#sendBtn').click();
+            }
         });
 
         $('#sendBtn').on('click', function(){
@@ -203,24 +248,38 @@
                 .then(response => response.json())
                 .then(chatMessages => {
                     $('#chatBox').html('');
+                    console.log(chatMessages);
+
                     chatMessages.forEach(message => {
-                        if (message.sender === 'admin') {
-                            $('#chatBox').append('<div class="chat-message"><strong>Admin:</strong> ' + message.content + '</div>');
+                        const timestamp = new Date(message.timestamp).toLocaleTimeString();
+                        if (message.user.userID === ${sessionScope.user.userID}) {
+                            $('#chatBox').append(
+                                '<div class="chat-message right"> <strong>Admin:</strong>'
+                                    + message.content +
+                                    '<span class="timestamp">' +  timestamp + '</span></div>'
+                            )
                         } else {
-                            $('#chatBox').append('<div class="chat-message"><strong>User:</strong> ' + message.content + '</div>');
+                            $('#chatBox').append(
+                                '<div class="chat-message left"><strong>' + message.user.name + ':</strong>' +
+                                    message.content +
+                                    '<span class="timestamp">' + timestamp+'</span></div>'
+                            )
                         }
                     });
                     $('#chatBox').scrollTop($('#chatBox')[0].scrollHeight);
                 });
-            $('#chatBox').html('<div class="chat-message"><strong>User:</strong> Hello Admin!</div><div class="chat-message"><strong>Admin:</strong> Hi there!</div>');
         }
 
         function sendMessage(message){
             websocket.send(message);
-            $('#chatBox').append('<div class="chat-message"><strong>Admin:</strong> ' + message + '</div>');
+            const timestamp = new Date().toLocaleTimeString();
+            $('#chatBox').append(
+                '<div class="chat-message right"><strong>Admin:</strong>'
+                    + message +
+                    '<span class="timestamp">' + timestamp + '</span></div>'
+            );
             $('#chatBox').scrollTop($('#chatBox')[0].scrollHeight);
         }
-
     });
 </script>
 

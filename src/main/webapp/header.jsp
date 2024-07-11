@@ -71,7 +71,7 @@
                         <div class="ordering">
                             <a href="#">Ordering</a>
                             <div class="line"></div>
-                            <a href="#">Shipping</a>
+                            <a href="/shipper">Shipping</a>
                             <div class="line"></div>
                             <a href="#">Returns</a>
                         </div>
@@ -97,6 +97,11 @@
                                         </c:if>
                                         <c:if test="${sessionScope.user.typeAccountName == 'employee'}">
                                             <a href="/employee">Trang quản lý</a>
+                                        </c:if>
+                                        <c:if test="${sessionScope.user.typeAccountName == 'shipper'}">
+                                            <a href="/listBillShipperAvaliable">Đơn hàng khả dụng</a>
+
+                                            <a href="/listBillShipper">Đơn hàng của bạn</a>
                                         </c:if>
                                         <a href="/bills">Lịch sử mua hàng</a>
                                         <a href="/changePassword">Thay đổi mật khẩu</a>

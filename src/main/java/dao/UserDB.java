@@ -10,6 +10,35 @@ import java.util.List;
 import static dao.DBConnection.closeConnection;
 
 public class UserDB extends DBTest {
+
+    public UserDB() {
+        super();
+    }
+
+    public void updateUser(User user) {
+        String query = "UPDATE users SET name = ?, userDOB = ?, email = ?, phoneNumber = ?, gender = ?, address = ?, avatar = ?, status = ?, description = ?, typeAccountId = ? WHERE userId = ?";
+        try {
+            openConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user.getName());
+            ps.setDate(2, user.getUserDOB());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getPhoneNumber());
+            ps.setBoolean(5, user.isGender());
+            ps.setString(6, user.getAddress());
+            ps.setString(7, user.getAvatar());
+            ps.setBoolean(8, user.isStatus());
+            ps.setString(9, user.getDescription());
+            ps.setInt(10, user.getTypeAccountId());
+            ps.setInt(11, user.getUserID());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+    }
+
     public User findUserById(int id) {
         String query = "SELECT u.*, t.typeAccountName " +
                 "FROM users u " +

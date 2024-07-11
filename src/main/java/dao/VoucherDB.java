@@ -86,4 +86,38 @@ public class VoucherDB extends DBTest{
         }
         return list;
     }
+
+    public boolean unactiveVoucher(int voucherId) {
+        String query = "UPDATE voucher SET status = 0 WHERE voucherId = ?";
+        try {
+            conn = DBContext.getConnection();
+            assert conn != null;
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, voucherId);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
+
+    public boolean activeVoucher(int voucherId) {
+        String query = "UPDATE voucher SET status = 1 WHERE voucherId = ?";
+        try {
+            conn = DBContext.getConnection();
+            assert conn != null;
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, voucherId);
+            ps.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return false;
+    }
 }
