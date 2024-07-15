@@ -1,4 +1,4 @@
-package control;
+package control.material;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

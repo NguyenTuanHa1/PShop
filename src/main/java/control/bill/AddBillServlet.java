@@ -2,6 +2,7 @@ package control.bill;
 
 import dao.*;
 import entity.*;
+import service.VNPayService;
 import utils.CheckPermission;
 
 import javax.servlet.ServletException;
@@ -104,6 +105,17 @@ public class AddBillServlet extends HttpServlet {
                 return;
             }
 
+            // Check quantity of product
+            ProductDB productDB = new ProductDB();
+            for (CartProducts c : listCartProducts) {
+                Product product = productDB.getProductById(c.getProduct().getProductId());
+                if (c.getQuantity() > product.getQuantity()) {
+                    request.setAttribute("errorMessage", "Số lượng sản phẩm " + product.getProductName() + " không đủ");
+                    processRequest(request, response);
+                    return;
+                }
+            }
+
             
             Voucher voucher = voucherDB.getVoucherByCode(voucherCode);
             if (voucher != null) {
@@ -130,9 +142,16 @@ public class AddBillServlet extends HttpServlet {
                 for (CartProducts c : listCartProducts) {
                     productDB.updateProductQuantity(c.getProduct().getProductId(), c.getProduct().getQuantity() - c.getQuantity());
                 }
-                response.sendRedirect("/bills");
                 List<CartProducts> newListCartProducts = new ArrayList<>();
                 session.setAttribute("cart", newListCartProducts);
+                if (paymentId == 1) {
+                    VNPayService vnpayService = new VNPayService();
+                    String vnpayUrl = vnpayService.getRequest(String.valueOf(total), "", "vn", "VND", request);
+                    response.sendRedirect(vnpayUrl);
+                } else {
+                    response.sendRedirect("/bills");
+                }
+//                response.sendRedirect("/bills");
             } else {
                 request.setAttribute("errorMessage", "Thêm hóa đơn thất bại");
                 processRequest(request, response);

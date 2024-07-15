@@ -137,13 +137,8 @@
                     <li class="navbar-dropdown">
                         <a href="/about">About</a>
                     </li>
-                    <li class="navbar-dropdown menu-item-children">
-                        <a href="javascript:void(0)"><i>
-                        </i>services</a>
-                        <div class="dropdown">
-                            <a href="/services">services</a>
-                            <a href="/service-details">service details</a>
-                        </div>
+                    <li class="navbar-dropdown">
+                        <a href="/services">Services</a>
                     </li>
                     <li class="navbar-dropdown menu-item-children">
                         <a href="javascript:void(0)">pages</a>
@@ -151,25 +146,17 @@
                             <a href="/team-details">team details</a>
                             <a href="/how-we-works">how we works</a>
                             <a href="/history">history</a>
-                            <a href="/pricing-packages">pricing packages</a>
-                            <a href="/photo-gallery">photo gallery</a>
-                            <a href="/login">login</a>
                         </div>
                     </li>
-                    <li class="navbar-dropdown menu-item-children">
-                        <a href="javascript:void(0)">Shop</a>
-                        <div class="dropdown">
-                            <a href="/products">our products</a>
-                            <a href="/product-details">product details</a>
-                            <a href="/shop-cart">shop cart</a>
-                            <a href="/cart-checkout">cart checkout</a>
-                        </div>
+                    <li class="navbar-dropdown">
+                        <a href="/products">Our Products</a>
+
                     </li>
                     <li class="navbar-dropdown menu-item-children">
                         <a href="javascript:void(0)">News</a>
                         <div class="dropdown">
                             <a href="/our-blog">our blog</a>
-                            <a href="/blog-details">blog details</a>
+                            <a href="/blog-detail">blog details</a>
                         </div>
                     </li>
                     <li class="navbar-dropdown">
