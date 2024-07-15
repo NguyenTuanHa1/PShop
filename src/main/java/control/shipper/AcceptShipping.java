@@ -27,6 +27,10 @@ public class AcceptShipping extends HttpServlet {
         }
         ShipperDB shipperDB = new ShipperDB();
         Shipper shipper = shipperDB.findShipperByUserId(user.getUserID());
+        if (shipper == null) {
+            response.sendRedirect("/logout");
+            return;
+        }
         shipperDB.acceptShipping(Integer.parseInt(request.getParameter("billID")), shipper.getShipperID());
         response.sendRedirect("listBillShipper");
     }

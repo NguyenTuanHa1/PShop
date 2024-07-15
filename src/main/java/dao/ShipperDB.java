@@ -20,7 +20,7 @@ public class ShipperDB extends DBTest{
     public void insertShipper(Shipper shipper) {
         String query = "INSERT INTO shippers (userID, description, status, createdDate, updatedDate) VALUES (?, ?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, shipper.getUserID());
             ps.setString(2, shipper.getDescription());
@@ -38,7 +38,7 @@ public class ShipperDB extends DBTest{
         List<Shipper> listShippers = new ArrayList<>();
         String query = "SELECT * FROM shippers";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -87,7 +87,7 @@ public class ShipperDB extends DBTest{
     public boolean addShipper(Shipper shipper) {
         String query = "INSERT INTO shippers (userID, description, status, createdDate, updatedDate) VALUES (?, ?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, shipper.getUserID());
             ps.setString(2, shipper.getDescription());
@@ -106,7 +106,7 @@ public class ShipperDB extends DBTest{
     public boolean updateShipper(Shipper shipper) {
         String query = "UPDATE shippers SET userID = ?, description = ?, status = ?, updatedDate = ? WHERE shipperID = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, shipper.getUserID());
             ps.setString(2, shipper.getDescription());
@@ -125,7 +125,7 @@ public class ShipperDB extends DBTest{
     public boolean deleteShipper(int shipperID) {
         String query = "DELETE FROM shippers WHERE shipperID = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, shipperID);
             ps.executeUpdate();
@@ -138,7 +138,7 @@ public class ShipperDB extends DBTest{
     }
 
     public Shipper findShipperByUserId(int userId) {
-        String query = "SELECT * FROM shippers WHERE userID = ?";
+        String query = "SELECT * FROM shippers WHERE userID = ? AND status = 1";
         try {
             conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);

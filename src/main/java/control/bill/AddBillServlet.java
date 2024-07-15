@@ -47,7 +47,7 @@ public class AddBillServlet extends HttpServlet {
             int userId = user.getUserID();
             String userName = request.getParameter("userName");
             if (userName.trim().isEmpty()) {
-                request.setAttribute("errroMessage", "Tên người nhận không được để trống");
+                request.setAttribute("errorMessage", "Tên người nhận không được để trống");
                 processRequest(request, response);
                 return;
             }
@@ -55,7 +55,7 @@ public class AddBillServlet extends HttpServlet {
             String email = request.getParameter("email");
             String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
             if (!email.matches(emailRegex)) {
-                request.setAttribute("errroMessage", "Email không hợp lệ");
+                request.setAttribute("errorMessage", "Email không hợp lệ");
                 processRequest(request, response);
                 return;
             }
@@ -63,27 +63,27 @@ public class AddBillServlet extends HttpServlet {
             String city = request.getParameter("city");
             // Check city
             if (city.trim().isEmpty()) {
-                request.setAttribute("errroMessage", "Thành phố không được để trống");
+                request.setAttribute("errorMessage", "Thành phố không được để trống");
                 processRequest(request, response);
                 return;
             }
             String district = request.getParameter("district");
             // Check district
             if (district.trim().isEmpty()) {
-                request.setAttribute("errroMessage", "Quận/Huyện không được để trống");
+                request.setAttribute("errorMessage", "Quận/Huyện không được để trống");
                 processRequest(request, response);
                 return;
             }
             String phone = request.getParameter("phone");
             String phoneRegex = "0\\d{9,10}";
             if (!phone.matches(phoneRegex)) {
-                request.setAttribute("errroMessage", "Số điện thoại không hợp lệ");
+                request.setAttribute("errorMessage", "Số điện thoại không hợp lệ");
                 processRequest(request, response);
                 return;
             }
             String address = request.getParameter("address");
             if (address.trim().isEmpty()) {
-                request.setAttribute("errroMessage", "Địa chỉ không được để trống");
+                request.setAttribute("errorMessage", "Địa chỉ không được để trống");
                 processRequest(request, response);
                 return;
             }
@@ -92,17 +92,19 @@ public class AddBillServlet extends HttpServlet {
             int transportId = Integer.parseInt(request.getParameter("transportId"));
             // Check transport
             if (transportId == 0) {
-                request.setAttribute("errroMessage", "Vui lòng chọn phương thức vận chuyển");
+                request.setAttribute("errorMessage", "Vui lòng chọn phương thức vận chuyển");
                 processRequest(request, response);
                 return;
             }
             int paymentId = Integer.parseInt(request.getParameter("paymentId"));
             // Check payment
             if (paymentId == 0) {
-                request.setAttribute("errroMessage", "Vui lòng chọn phương thức thanh toán");
+                request.setAttribute("errorMessage", "Vui lòng chọn phương thức thanh toán");
                 processRequest(request, response);
                 return;
             }
+
+            
             Voucher voucher = voucherDB.getVoucherByCode(voucherCode);
             if (voucher != null) {
                 int discountValue = 0;
@@ -132,7 +134,7 @@ public class AddBillServlet extends HttpServlet {
                 List<CartProducts> newListCartProducts = new ArrayList<>();
                 session.setAttribute("cart", newListCartProducts);
             } else {
-                request.setAttribute("errroMessage", "Thêm hóa đơn thất bại");
+                request.setAttribute("errorMessage", "Thêm hóa đơn thất bại");
                 processRequest(request, response);
             }
         } catch (Exception e) {

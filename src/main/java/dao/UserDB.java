@@ -18,7 +18,7 @@ public class UserDB extends DBTest {
     public void updateUser(User user) {
         String query = "UPDATE users SET name = ?, userDOB = ?, email = ?, phoneNumber = ?, gender = ?, address = ?, avatar = ?, status = ?, description = ?, typeAccountId = ? WHERE userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, user.getName());
             ps.setDate(2, user.getUserDOB());
@@ -189,7 +189,7 @@ public class UserDB extends DBTest {
     public boolean editInfoUser(User user) {
         String query = "UPDATE users SET name = ?, userDOB = ?, email = ?, phoneNumber = ?, gender = ?, address = ?, description = ?, avatar = ? WHERE userID = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, user.getName());
             ps.setDate(2, user.getUserDOB());
@@ -215,7 +215,7 @@ public class UserDB extends DBTest {
         String query = "SELECT u.*, ta.typeAccountName FROM users u\n"
                 + "JOIN typeaccount ta ON u.typeAccountId = ta.typeAccountId";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -250,7 +250,7 @@ public class UserDB extends DBTest {
     public User getUserById(int userId) {
         String query = "SELECT * FROM users WHERE userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
             rs = ps.executeQuery();
@@ -286,7 +286,7 @@ public class UserDB extends DBTest {
         List<TypeAccount> list = new ArrayList<>();
         String query = "SELECT * FROM typeaccount";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -304,7 +304,7 @@ public class UserDB extends DBTest {
     public boolean updateUserByAdmin(User user) {
         String query = "UPDATE users SET name = ?, userDOB = ?, email = ?, phoneNumber = ?, gender = ?, address = ?, avatar = ?, status = ?, description = ?, typeAccountId = ? WHERE userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, user.getName());
             ps.setDate(2, user.getUserDOB());
@@ -330,7 +330,7 @@ public class UserDB extends DBTest {
     public void deleteUser(int userId) {
         String query = "DELETE FROM users WHERE userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
             ps.executeUpdate();
@@ -344,7 +344,7 @@ public class UserDB extends DBTest {
     public boolean addNewUser(User user) {
         String query = "INSERT INTO users (name, userDOB, email, phoneNumber, gender, address, avatar, status, description, typeAccountId, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, user.getName());
             ps.setDate(2, user.getUserDOB());
@@ -370,7 +370,7 @@ public class UserDB extends DBTest {
     public boolean blockUser(int userId) {
         String query = "UPDATE users SET isBan = 1 WHERE userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
             ps.executeUpdate();
@@ -386,7 +386,7 @@ public class UserDB extends DBTest {
     public boolean unblockUser(int userId) {
         String query = "UPDATE users SET isBan = 0 WHERE userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
             ps.executeUpdate();

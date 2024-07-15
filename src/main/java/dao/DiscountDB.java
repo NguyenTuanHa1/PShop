@@ -62,7 +62,7 @@ public class DiscountDB extends DBTest {
                 + "join product_discount pd on d.discountId = pd.discountId\n"
                 + "where pd.productId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, productId);
             rs = ps.executeQuery();
@@ -84,7 +84,7 @@ public class DiscountDB extends DBTest {
     public boolean addDiscount(String discountPercentage, Date startDate, Date endDate, boolean status) {
         String query = "INSERT INTO discount (discountPercentage, startDate, endDate, status) VALUES (?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, discountPercentage);
             ps.setDate(2, startDate);

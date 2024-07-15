@@ -63,7 +63,7 @@ public class VoucherDB extends DBTest{
         List<Voucher> list = new ArrayList<>();
         String query = "SELECT * FROM voucher";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {

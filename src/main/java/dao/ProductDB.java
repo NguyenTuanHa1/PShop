@@ -381,7 +381,7 @@ public class ProductDB extends DBTest{
     public boolean addProduct(Product product) {
         String query = "INSERT INTO products (productName, img, img1, img2, img3, priceProduct, typeProductId, sizeId, trademarkId, quantityProduct, describeProduct) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, product.getProductName());
             ps.setString(2, product.getImg());
@@ -454,7 +454,7 @@ public class ProductDB extends DBTest{
     public boolean checkProductExistById(int id) {
         String query = "select * from products where productId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();

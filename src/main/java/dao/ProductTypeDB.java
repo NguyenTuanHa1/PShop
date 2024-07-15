@@ -12,7 +12,7 @@ public class ProductTypeDB extends DBTest{
     public void updateProductType(int typeProductId, String typeProductName, String describeType) {
         String query = "update TypeProduct set typeProductName = ?, describeType = ? where typeProductId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, typeProductName);
             ps.setString(2, describeType);
@@ -27,7 +27,7 @@ public class ProductTypeDB extends DBTest{
     public void deleteProductType(int typeProductId) {
         String query = "delete from TypeProduct where typeProductId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, typeProductId);
             ps.executeUpdate();
@@ -85,7 +85,7 @@ public class ProductTypeDB extends DBTest{
     public TypeProduct findProductTypeByID(int typeProductId) {
         String query = "select * from TypeProduct where typeProductId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, typeProductId);
             rs = ps.executeQuery();
@@ -146,7 +146,7 @@ public class ProductTypeDB extends DBTest{
     public boolean addTypeProduct(TypeProduct typeProduct) {
         String query = "INSERT INTO TypeProduct (typeProductName, describeType) VALUES (?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, typeProduct.getTypeProductName());
             ps.setString(2, typeProduct.getDescribeType());

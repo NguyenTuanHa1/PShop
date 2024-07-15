@@ -50,7 +50,7 @@ public class MessageDB extends DBTest {
     public boolean insertMessage(String content, int chatRoomID, int userID) {
         String query = "INSERT INTO messages (content, chatRoomID, userID) VALUES (?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, content);
             ps.setInt(2, chatRoomID);

@@ -26,6 +26,10 @@ public class ConfirmShipped extends HttpServlet {
         }
         ShipperDB shipperDB = new ShipperDB();
         Shipper shipper = shipperDB.findShipperByUserId(user.getUserID());
+        if (shipper == null) {
+            response.sendRedirect("/logout");
+            return;
+        }
         BillDB billDB = new BillDB();
         billDB.confirmShipped(Integer.parseInt(request.getParameter("billID")), shipper.getShipperID());
         response.sendRedirect("listBillShipper");

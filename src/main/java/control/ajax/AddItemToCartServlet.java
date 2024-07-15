@@ -59,9 +59,6 @@ public class AddItemToCartServlet extends HttpServlet {
                     }
                 }
             }
-            if (listCart == null) {
-                listCart = new ArrayList<>();
-            }
             for (CartProducts c : listCart) {
                 if (c.getProduct().getProductId() == productId) {
                     c.setQuantity(c.getQuantity() + quantity);

@@ -1,7 +1,9 @@
 package control.shipper;
 
 import dao.ShipperDB;
+import dao.UserDB;
 import entity.Shipper;
+import entity.User;
 import utils.CheckPermission;
 import utils.EmailUtils;
 
@@ -25,6 +27,10 @@ public class RejectShipperServlet extends HttpServlet {
         Shipper shipper = shipperDB.findShipperById(shipperID);
         shipper.setStatus(false);
         shipperDB.updateShipper(shipper);
+        UserDB userDB = new UserDB();
+        User user = userDB.findUserById(shipper.getUserID());
+        user.setTypeAccountId(3);
+        userDB.updateUser(user);
         request.setAttribute("successMessage", "Từ chối shipper thành công");
         EmailUtils.sendEmail(shipper.getShipper().getEmail(), "Từ chối shipper", "Xin lỗi, bạn đã bị từ chối làm shipper");
         request.getRequestDispatcher("listShipper").forward(request, response);

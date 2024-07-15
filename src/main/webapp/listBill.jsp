@@ -99,15 +99,15 @@
                             <button type="submit" class="btn btn-primary">Xem chi tiết</button>
                         </form>
                         <c:if test="${bill.statusBill eq 'Đã giao'}">
-                            <form action="/buyAgain" method="post">
-                                <input type="hidden" name="billId" value="${bill.billId}">
-                                <button type="submit" class="btn btn-success" onclick="alert('Bạn có chắc chắn muốn mua lại đơn hàng này một lần nữa?')">Mua lại</button>
+                            <form action="/buyAgain" method="post" id="form-buyAgain">
+                                <input type="hidden" name="billID" value="${bill.billId}">
+                                <button type="submit" class="btn btn-success">Mua lại</button>
                             </form>
                         </c:if>
                         <c:if test="${bill.statusBill ne 'Đã giao' && bill.statusBill ne 'Đã hủy'}">
                             <form action="/cancelBill" method="post">
                                 <input type="hidden" name="billId" value="${bill.billId}">
-                                <button type="submit" class="btn btn-danger" onclick="alert('Bạn có chắc chắn muốn hủy đơn hàng này không?')">Hủy</button>
+                                <button type="submit" class="btn btn-danger" onclick="confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?')">Hủy</button>
                             </form>
                         </c:if>
                     </td>
@@ -126,5 +126,31 @@
 <!-- fancybox -->
 <script src="assets/js/jquery.fancybox.min.js"></script>
 <script src="assets/js/custom.js"></script>
+<script>
+    // Form buy again
+    $(document).ready(function () {
+        $('#form-buyAgain').submit(function () {
+            if (confirm('Bạn có chắc chắn muốn mua lại đơn hàng này không?')) {
+                // Ajax
+                $.ajax({
+                    type: 'POST',
+                    url: '/buyAgain',
+                    data: $('#form-buyAgain').serialize(),
+                    success: function (data) {
+                        // Check data, convert data to String
+                        if (data.toString().trim() === 'success') {
+                            alert('Mua lại đơn hàng thành công!');
+                            location.reload();
+                        } else {
+                            alert('Mua lại đơn hàng thất bại!');
+                        }
+
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>
 </body>
 </html>

@@ -28,6 +28,10 @@ public class ListBillShipperServlet extends HttpServlet {
         }
         ShipperDB shipperDB = new ShipperDB();
         Shipper shipper = shipperDB.findShipperByUserId(user.getUserID());
+        if (shipper == null) {
+            response.sendRedirect("/logout");
+            return;
+        }
         List<ShipperBill> listBills = shipperDB.getShipperBills(shipper.getShipperID());
         request.setAttribute("listBills", listBills);
         request.getRequestDispatcher("listBillShipper.jsp").forward(request, response);

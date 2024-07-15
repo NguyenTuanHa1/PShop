@@ -9,7 +9,7 @@ public class SizeDB extends DBTest{
     public void deleteSize(int sizeId) {
         String query = "delete from Size where sizeId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, sizeId);
             ps.executeUpdate();
@@ -22,7 +22,7 @@ public class SizeDB extends DBTest{
     public void updateSize(String sizeId, String sizeName) {
         String query = "UPDATE Size SET sizeName = ? WHERE sizeId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, sizeName);
             ps.setString(2, sizeId);
@@ -57,7 +57,7 @@ public class SizeDB extends DBTest{
     public boolean addSize(Size size) {
         String query = "INSERT INTO Size (sizeName, describeSize, weight) VALUES (?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, size.getSizeName());
             ps.setString(2, size.getDescribeSize());

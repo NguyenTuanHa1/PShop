@@ -13,7 +13,7 @@ public class SearchDB extends DBTest{
                 + "join Trademark tm on p.trademarkId = tm.trademarkId\n"
                 + "where p.productName like ? or p.describeProduct like ? or t.typeProductName like ? or tm.trademarkName like ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             String keywordPattern = "%" + keyword + "%";
             ps.setString(1, keywordPattern);

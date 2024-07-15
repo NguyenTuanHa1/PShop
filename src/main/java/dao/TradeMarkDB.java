@@ -9,7 +9,7 @@ public class TradeMarkDB extends DBTest{
     public void deleteTrademark(int trademarkId) {
         String query = "delete from Trademark where trademarkId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps.setInt(1, trademarkId);
             ps.executeUpdate();
         } catch (Exception e) {
@@ -21,7 +21,7 @@ public class TradeMarkDB extends DBTest{
     public void updateTrademark(Trademark trademark) {
         String query = "UPDATE Trademark SET trademarkName = ?, logo = ?, descriptionTrademark = ? WHERE trademarkId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps.setString(1, trademark.getTrademarkName());
             ps.setString(2, trademark.getLogo());
             ps.setString(3, trademark.getDescriptionTrademark());
@@ -78,7 +78,9 @@ public class TradeMarkDB extends DBTest{
     public boolean addTrademark(Trademark trademark) {
         String query = "INSERT INTO Trademark (trademarkName, logo, descriptionTrademark) VALUES (?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
+            assert conn != null;
+            ps = conn.prepareStatement(query);
             ps.setString(1, trademark.getTrademarkName());
             ps.setString(2, trademark.getLogo());
             ps.setString(3, trademark.getDescriptionTrademark());

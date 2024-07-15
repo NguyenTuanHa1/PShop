@@ -226,6 +226,15 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card shadow-sm">
+                    <img src="assets/img/we-provide-2.jpg" class="card-img-top" alt="Add Size">
+                    <div class="card-body text-center">
+                        <a href="/addDiscount"><h5 class="card-title">Discount</h5></a>
+                        <p class="card-text">Manage product discounts in your application</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card shadow-sm">
                     <img src="assets/img/we-provide-3.jpg" class="card-img-top" alt="Add Transport">
                     <div class="card-body text-center">
                         <a href="/chatAdmin"><h5 class="card-title">Chat</h5></a>

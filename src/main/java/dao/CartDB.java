@@ -231,7 +231,7 @@ public class CartDB extends DBTest{
     public void removeProductFromCart(int cartProductId) {
         String query = "DELETE FROM cart_products WHERE productId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, cartProductId);
             ps.executeUpdate();

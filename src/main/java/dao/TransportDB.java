@@ -9,7 +9,7 @@ public class TransportDB extends DBTest{
     public void deleteTransport(int transportId) {
         String query = "DELETE FROM transport WHERE transportId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, transportId);
             ps.executeUpdate();
@@ -22,7 +22,7 @@ public class TransportDB extends DBTest{
     public void updateTransport(Transport transport) {
         String query = "UPDATE transport SET transportName = ?, priceTransPort = ?, descriptionTransport = ? WHERE transportId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, transport.getTransportName());
             ps.setInt(2, transport.getPriceTransPort());
@@ -38,7 +38,7 @@ public class TransportDB extends DBTest{
     public Transport getTransportById(int transportId) {
         String query = "SELECT * FROM transport WHERE transportId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, transportId);
             rs = ps.executeQuery();
@@ -59,7 +59,7 @@ public class TransportDB extends DBTest{
     public static boolean addTransport(String transportName, int priceTransPort, String descriptionTransport) {
         String query = "INSERT INTO transport (transportName, priceTransPort, descriptionTransport) VALUES (?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setString(1, transportName);
             ps.setInt(2, priceTransPort);

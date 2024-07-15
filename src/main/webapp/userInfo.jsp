@@ -88,7 +88,7 @@
 
 <section class="gap">
     <div class="container container-user-info">
-        <form action="/editInfoUser" method="post" enctype="multipart/form-data">
+        <form action="/information" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-6">
                     <h2>User Details</h2>

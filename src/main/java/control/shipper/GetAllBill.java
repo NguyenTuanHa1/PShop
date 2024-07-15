@@ -27,6 +27,12 @@ public class GetAllBill extends HttpServlet {
             response.sendRedirect("login.jsp");
             return;
         }
+        ShipperDB shipperDB = new ShipperDB();
+        Shipper shipper = shipperDB.findShipperByUserId(user.getUserID());
+        if (shipper == null) {
+            response.sendRedirect("/logout");
+            return;
+        }
         BillDB billDB = new BillDB();
         List<Bill> listBills = billDB.getAllBillToShipper();
         request.setAttribute("listBills", listBills);

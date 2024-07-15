@@ -19,9 +19,10 @@ public class BuyAgainServlet extends HttpServlet {
         BillDB billDB = new BillDB();
         if (billDB.checkQuantity(billID)) {
             billDB.buyAgain(billID);
-            response.sendRedirect("/bills");
+            response.getWriter().println("success");
+
         } else {
-            response.sendRedirect("/bills?error=1");
+            response.getWriter().println("fail");
         }
     }
 }

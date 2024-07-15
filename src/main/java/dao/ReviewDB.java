@@ -42,7 +42,7 @@ public class ReviewDB extends DBTest{
     public boolean addReview(Review review) {
         String query = "INSERT INTO review (productId, userId, starQuantity, content) VALUES (?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, review.getProductId());
             ps.setInt(2, review.getUserId());
@@ -61,7 +61,7 @@ public class ReviewDB extends DBTest{
     public boolean deleteReview(int reviewId) {
         String query = "DELETE FROM review WHERE reviewId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, reviewId);
             ps.executeUpdate();

@@ -86,7 +86,7 @@ public class BillDB extends DBTest{
     }
 
     public boolean checkQuantity(int billID) {
-        String query = "SELECT bd.productId, bd.quantity, p.quantity AS quantityInStock "
+        String query = "SELECT bd.productId, bd.quantity, p.quantityProduct AS quantityInStock "
                 + "FROM billDetail bd "
                 + "JOIN products p ON bd.productId = p.productId "
                 + "WHERE bd.billId = ?";
@@ -134,7 +134,7 @@ public class BillDB extends DBTest{
     public Bill addBill(Bill bill) {
         String query = "INSERT INTO bill (userId, userName, email, city, district, phone, address, note, voucherCode, transportId, paymentId, totalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, bill.getUserId());
             ps.setString(2, bill.getUserName());
@@ -352,7 +352,7 @@ public class BillDB extends DBTest{
                 + "JOIN users u ON b.userId = u.userId\n"
                 + "WHERE b.userId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId);
             rs = ps.executeQuery();
@@ -391,7 +391,7 @@ public class BillDB extends DBTest{
 
         String deleteBillQuery = "DELETE FROM bill WHERE billId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(deleteBillDetailQuery);
             ps.setInt(1, billId);
             ps.executeUpdate();
@@ -409,7 +409,7 @@ public class BillDB extends DBTest{
     public boolean deleteBillDetailAdmin(int billDetailId) {
         String query = "DELETE FROM billDetail WHERE billDetailId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, billDetailId);
             ps.executeUpdate();
@@ -425,7 +425,7 @@ public class BillDB extends DBTest{
     public void cancelBill(int billId) {
         String query = "UPDATE bill SET statusBill = 'Đã hủy' WHERE billId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, billId);
             ps.executeUpdate();
