@@ -138,7 +138,6 @@ public class AddBillServlet extends HttpServlet {
             if(billResult.getBillId() > 0){
                 billDB.addBillDetail(listCartProducts, billResult.getBillId());
                 cartDB.clearCart(userId);
-                ProductDB productDB = new ProductDB();
                 for (CartProducts c : listCartProducts) {
                     productDB.updateProductQuantity(c.getProduct().getProductId(), c.getProduct().getQuantity() - c.getQuantity());
                 }
