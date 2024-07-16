@@ -46,6 +46,11 @@ public class AddItemToCartServlet extends HttpServlet {
                 return;
             }
 
+            if (quantity > product.getQuantity()) {
+                response.getWriter().println("Số lượng sản phẩm vượt quá số lượng sản phẩm còn lại");
+                return;
+            }
+
             HttpSession session = request.getSession();
             List<CartProducts> listCart = (List<CartProducts>) session.getAttribute("cart");
             if (listCart == null) {
