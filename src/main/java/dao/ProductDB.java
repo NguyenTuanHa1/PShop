@@ -203,7 +203,7 @@ public class ProductDB extends DBTest{
     }
 
     public void editProduct(Product product) {
-        String query = "UPDATE products SET productName = ?, img = ?, img1 = ?, img2 = ?, img3 = ?, priceProduct = ?, typeProductId = ?, sizeId = ?, trademarkId = ?, quantityProduct = ?, describeProduct = ? WHERE productId = ?";
+        String query = "UPDATE products SET productName = ?, img = ?, img1 = ?, img2 = ?, img3 = ?, priceProduct = ?, typeProductId = ?, sizeId = ?, trademarkId = ?, quantityProduct = ?, describeProduct = ?, status = ? WHERE productId = ?";
         try {
             conn = DBContext.getConnection();
             assert conn != null;
@@ -219,7 +219,8 @@ public class ProductDB extends DBTest{
             ps.setInt(9, product.getTrademarkId());
             ps.setInt(10, product.getQuantity());
             ps.setString(11, product.getDescribeProduct());
-            ps.setInt(12, product.getProductId());
+            ps.setBoolean(12, product.isStatus());
+            ps.setInt(13, product.getProductId());
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);

@@ -82,7 +82,12 @@ public class ProcessCheckOutServlet extends HttpServlet {
             }
         }
         request.setAttribute("totalPrice", total);
-        String voucherCode = request.getParameter("voucherCode");
+        String voucherCode = null;
+        try {
+            voucherCode = request.getParameter("voucherCode") == null ? null : request.getParameter("voucherCode");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         request.setAttribute("voucherCode", voucherCode);
         request.setAttribute("listTransport", transportDB.getAllTransport());
         request.setAttribute("listPayment", paymentDB.getAllPayment());

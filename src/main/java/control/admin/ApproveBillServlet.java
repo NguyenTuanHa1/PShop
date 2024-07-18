@@ -33,10 +33,10 @@ public class ApproveBillServlet extends HttpServlet {
         bill.setStatusBill("Đã xác nhận");
         bill.setEmployeeId(user.getUserID());
         List<BillDetail> billDetailList = billDB.getBillDetailByBillId(billId);
-        for (BillDetail billDetail : billDetailList) {
-            int quantity = productDB.getProductQuantity(billDetail.getProductId());
-            productDB.updateProductQuantity(billDetail.getProductId(), quantity - billDetail.getQuantity());
-        }
+//        for (BillDetail billDetail : billDetailList) {
+//            int quantity = productDB.getProductQuantity(billDetail.getProductId());
+//            productDB.updateProductQuantity(billDetail.getProductId(), quantity - billDetail.getQuantity());
+//        }
         billDB.approveBill(bill);
         response.sendRedirect("listBillAdmin");
     }

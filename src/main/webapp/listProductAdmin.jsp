@@ -76,7 +76,7 @@
                     </td>
                     <td>
                         <a href="/editProduct?productId=${product.productId}" class="btn btn-warning">Sửa</a>
-                        <a href="/deleteProduct?productId=${product.productId}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>
+<%--                        <a href="/deleteProduct?productId=${product.productId}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">Xóa</a>--%>
                     </td>
                 </tr>
             </c:forEach>

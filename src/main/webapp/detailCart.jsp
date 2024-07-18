@@ -32,13 +32,13 @@
 </head>
 <body>
 <!-- loader -->
-<div class="preloader">
-    <div class="container">
-        <div class="dot dot-1"></div>
-        <div class="dot dot-2"></div>
-        <div class="dot dot-3"></div>
-    </div>
-</div>
+<%--<div class="preloader">--%>
+<%--    <div class="container">--%>
+<%--        <div class="dot dot-1"></div>--%>
+<%--        <div class="dot dot-2"></div>--%>
+<%--        <div class="dot dot-3"></div>--%>
+<%--    </div>--%>
+<%--</div>--%>
 <!-- loader end -->
 <%@include file="header.jsp" %>
 
@@ -83,7 +83,7 @@
     <div class="container">
         <div class="row">
             <form action="/processCheckOut" class="woocommerce-cart-form" method="POST">
-                <div style="overflow-x:auto;overflow-y: hidden;">{
+                <div style="overflow-x:auto;overflow-y: hidden;">
                     <table class="shop_table table-responsive">
                         <thead>
                         <tr>
@@ -128,7 +128,7 @@
                                         </td>
                                         <td class="product-quantity">
                                             <div class="quantity">
-                                                <input onchange="changeQuantity(${cart.product.productId})" id="quantity" type="number" class="input-text qty text" step="1" min="1" max="${cart.product.quantity}" name="quantity" value="${cart.quantity}" title="Qty" size="4" pattern="[0-9]*" inputmode="numeric">
+                                                <input onchange="changeQuantity(${cart.product.productId})" id="quantity-${cart.product.productId}" type="number" class="input-text qty text" step="1" min="1" max="${cart.product.quantity}" name="quantity" value="${cart.quantity}" title="Qty" size="4" pattern="[0-9]*" inputmode="numeric">
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
@@ -255,7 +255,7 @@
             type: "get",
             data: {
                 productId: productId,
-                quantity: $("#quantity").val()
+                quantity: $("#quantity-" + productId).val()
             },
             success: function (response) {
                 location.reload();

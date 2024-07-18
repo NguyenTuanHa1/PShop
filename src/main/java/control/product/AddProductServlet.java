@@ -31,9 +31,11 @@ public class AddProductServlet extends HttpServlet {
         ProductTypeDB productTypeDB = new ProductTypeDB();
         TradeMarkDB tradeMarkDB = new TradeMarkDB();
         SizeDB sizeDB = new SizeDB();
+        DiscountDB discountDB = new DiscountDB();
         request.setAttribute("listProductType", productTypeDB.getAllProductType());
         request.setAttribute("listTrademark", tradeMarkDB.getAllTrademark());
         request.setAttribute("listSize", sizeDB.getAllSize());
+        request.setAttribute("listDiscount", discountDB.getAllDiscount());
         request.getRequestDispatcher("addProduct.jsp").forward(request, response);
     }
 

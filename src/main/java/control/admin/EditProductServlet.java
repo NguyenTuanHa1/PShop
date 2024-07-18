@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet("/editProduct")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -82,6 +83,7 @@ public class EditProductServlet extends HttpServlet {
         int trademarkId = Integer.parseInt(request.getParameter("trademarkId"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
         String describeProduct = request.getParameter("describeProduct");
+        boolean status = Objects.equals(request.getParameter("status"), "true");
         product.setProductName(productName);
         product.setPriceProduct(priceProduct);
         product.setTypeProductId(typeProductId);
@@ -89,6 +91,7 @@ public class EditProductServlet extends HttpServlet {
         product.setTrademarkId(trademarkId);
         product.setQuantity(quantity);
         product.setDescribeProduct(describeProduct);
+        product.setStatus(status);
         productDB.editProduct(product);
         int discountId = Integer.parseInt(request.getParameter("discountId"));
         boolean check = productDB.checkDiscountProduct(productId);

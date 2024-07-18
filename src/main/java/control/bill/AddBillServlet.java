@@ -135,7 +135,7 @@ public class AddBillServlet extends HttpServlet {
 
             Bill bill = new Bill(userId, userName, email, city, district, phone, address, note, voucherCode, transportId, paymentId, total);
             Bill billResult = billDB.addBill(bill);
-            if(billResult.getBillId() > 0){
+            if(billResult != null && billResult.getBillId() > 0){
                 billDB.addBillDetail(listCartProducts, billResult.getBillId());
                 cartDB.clearCart(userId);
                 for (CartProducts c : listCartProducts) {
