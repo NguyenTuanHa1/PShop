@@ -146,13 +146,17 @@
         <div class="product-info p-60">
           <div class="d-flex align-items-center">
             <div class="start d-flex align-items-center">
-              <c:forEach var="i" begin="0" end="${avgRating }">
-                <i class="fa-solid fa-star"></i>
+              
+              <c:forEach var="i" begin="1" end="5">
+                <c:choose>
+                  <c:when test="${i <= avgRating}">
+                    <i class="fa-solid fa-star" style="color: #f5b301;"></i>
+                  </c:when>
+                  <c:otherwise>
+                    <i class="fa-solid fa-star" style="color: #ddd;"></i>
+                  </c:otherwise>
+                </c:choose>
               </c:forEach>
-                <c:forEach var="i" begin="${avgRating + 2}" end="5">
-                    <i class="fa-solid fa-star" style="color: #ccc;"></i>
-                </c:forEach>
-
             </div>
             <span>${listReview.size()} reviews</span>
           </div>
@@ -355,14 +359,14 @@
           </c:forEach>
 
         </ul>
-        <ul class="pagination">
-          <li class="prev"><a href="#"><i class='fa-solid fa-arrow-left'></i></a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">......</a></li>
-          <li><a href="#">18</a></li>
-          <li class="next"><a href="#"><i class='fa-solid fa-arrow-right'></i></a></li>
-        </ul>
+<%--        <ul class="pagination">--%>
+<%--          <li class="prev"><a href="#"><i class='fa-solid fa-arrow-left'></i></a></li>--%>
+<%--          <li><a href="#">1</a></li>--%>
+<%--          <li><a href="#">2</a></li>--%>
+<%--          <li><a href="#">......</a></li>--%>
+<%--          <li><a href="#">18</a></li>--%>
+<%--          <li class="next"><a href="#"><i class='fa-solid fa-arrow-right'></i></a></li>--%>
+<%--        </ul>--%>
       </div>
       <div class="col-lg-5">
         <c:choose>

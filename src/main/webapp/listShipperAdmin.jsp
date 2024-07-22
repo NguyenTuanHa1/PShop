@@ -63,7 +63,7 @@
 
 <section class="gap">
     <div class="container">
-        <h2>Bills</h2>
+        <h2>Shippers</h2>
         <c:if test="${not empty errorMessage}">
             <div class="alert alert-danger mt-3">${errorMessage}</div>
         </c:if>

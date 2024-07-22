@@ -24,13 +24,13 @@ public class GetAllBill extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("/login");
             return;
         }
         ShipperDB shipperDB = new ShipperDB();
         Shipper shipper = shipperDB.findShipperByUserId(user.getUserID());
         if (shipper == null) {
-            response.sendRedirect("/logout");
+            response.sendRedirect("/login");
             return;
         }
         BillDB billDB = new BillDB();

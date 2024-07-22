@@ -71,7 +71,9 @@
                         <div class="ordering">
                             <a href="#">Ordering</a>
                             <div class="line"></div>
-                            <a href="/shipper">Shipping</a>
+                            <c:if test="${sessionScope.user.typeAccountName != 'shipper'}">
+                                <a href="/shipper">Shipping</a>>
+                            </c:if>
                             <div class="line"></div>
                             <a href="#">Returns</a>
                         </div>
