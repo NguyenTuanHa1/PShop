@@ -9,6 +9,26 @@ import java.util.List;
 
 public class ProductTypeDB extends DBTest{
 
+    // getTotalProductTypeById
+    public int getTotalProductTypeById(int typeId) {
+        String query = "select count(*) from products where typeProductId = ? and status = 1";
+        try {
+            conn = DBContext.getConnection();
+            assert conn != null;
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, typeId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeConnection();
+        }
+        return 0;
+    }
+
     public void updateProductType(int typeProductId, String typeProductName, String describeType) {
         String query = "update TypeProduct set typeProductName = ?, describeType = ? where typeProductId = ?";
         try {
@@ -102,18 +122,25 @@ public class ProductTypeDB extends DBTest{
         return null;
     }
 
-    public List<Product> getProductTypeById(int typeId) {
+    public List<Product> getProductTypeById(int typeId, int offset, String sortTy, String typeSort) {
+
+
         List<Product> list = new ArrayList<>();
-        String query = "select p.*, t.typeProductName, s.sizeName, tm.trademarkName from products p\n"
-                + "join TypeProduct t on p.typeProductId = t.typeProductId\n"
-                + "join Size s on p.sizeId = s.sizeId\n"
-                + "join Trademark tm on p.trademarkId = tm.trademarkId\n"
-                + "where p.typeProductId = ?";
+        String query = "SELECT p.*, t.typeProductName, s.sizeName, tm.trademarkName "
+                + "FROM products p "
+                + "JOIN TypeProduct t ON p.typeProductId = t.typeProductId "
+                + "JOIN Size s ON p.sizeId = s.sizeId "
+                + "JOIN Trademark tm ON p.trademarkId = tm.trademarkId "
+                + "WHERE p.typeProductId = ? "
+                + "ORDER BY p." + sortTy + " " + typeSort + " "
+                + "LIMIT 9 OFFSET ?";
+
         try {
             conn = DBContext.getConnection();//mo ket noi voi sql
             assert conn != null;
             ps = conn.prepareStatement(query);
             ps.setInt(1, typeId);
+            ps.setInt(2, offset);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1),
@@ -136,6 +163,7 @@ public class ProductTypeDB extends DBTest{
                         rs.getString(18)));
             }
         } catch (SQLException e) {
+            System.out.println(e);
             throw new RuntimeException(e);
         } finally {
             closeConnection();

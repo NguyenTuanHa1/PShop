@@ -129,5 +129,21 @@
 <!-- fancybox -->
 <script src="assets/js/jquery.fancybox.min.js"></script>
 <script src="assets/js/custom.js"></script>
+<script>
+    function addToCart(id) {
+        $.ajax({
+            url: "/addItemToCart",
+            type: "post",
+            data: {
+                productId: id,
+                quantity: 1
+            },
+            success: function (data) {
+                alert("Add to cart successfully");
+                location.reload();
+            },
+        });
+    }
+</script>
 </body>
 </html>

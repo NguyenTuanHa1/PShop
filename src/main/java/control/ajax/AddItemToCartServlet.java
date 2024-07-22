@@ -75,7 +75,11 @@ public class AddItemToCartServlet extends HttpServlet {
             }
             if (session.getAttribute("user") != null) {
                 User user = (User) session.getAttribute("user");
-                int cartId = cartDB.getCart(user.getUserID()).getCartId();
+                Cart cart = cartDB.getCart(user.getUserID());
+                if (cart == null) {
+                    cart = cartDB.createCart(user.getUserID());
+                }
+                int cartId = cart.getCartId();
                 if(cartDB.checkProductInCart(cartId, productId)) {
                     cartDB.updateQuantityProductInCart(user.getUserID(), productId, quantity);
                 }

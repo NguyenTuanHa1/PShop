@@ -243,159 +243,64 @@
             <h2>Healthy Products</h2>
         </div>
         <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="healthy-product">
-                    <div class="healthy-product-img">
-                        <img src="/assets/img/food-1.png" alt="food">
-                        <ul class="star">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                        </ul>
-                        <div class="add-to-cart">
-                            <a href="#">Add to Cart</a>
-                            <a href="#" class="heart-wishlist">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <span>Animal Feed</span>
-                    <a href="/products">Procan Adult Dog Food</a>
-                    <h6>$32.00</h6>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="healthy-product">
-                    <div class="healthy-product-img">
-                        <img src="/assets/img/food-2.png" alt="food">
-                        <ul class="star">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                        </ul>
-                        <div class="add-to-cart">
-                            <a href="#">Add to Cart</a>
-                            <a href="#" class="heart-wishlist">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                        </div>
-                        <h4>-24%</h4>
-                    </div>
-                    <span>Animal Feed</span>
-                    <a href="/products">Best Organic Feeds</a>
-                    <h6><del>$32.00</del>$22.00</h6>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="healthy-product">
-                    <div class="healthy-product-img">
-                        <img src="/assets/img/food-3.png" alt="food">
-                        <ul class="star">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                        </ul>
-                        <div class="add-to-cart">
-                            <a href="#">Add to Cart</a>
-                            <a href="#" class="heart-wishlist">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <span>Animal Feed</span>
-                    <a href="/products">Green Papaya Fruit</a>
-                    <h6>$32.00</h6>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="healthy-product">
-                    <div class="healthy-product-img">
-                        <img src="/assets/img/food-4.png" alt="food">
-                        <ul class="star">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                        </ul>
-                        <div class="add-to-cart">
-                            <a href="#">Add to Cart</a>
-                            <a href="#" class="heart-wishlist">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                        </div>
-                        <h4>-24%</h4>
-                    </div>
-                    <span>Animal Feed</span>
-                    <a href="/products">KMR Pwdr 12oz</a>
-                    <h6><del>$32.00</del>$22.00</h6>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="healthy-product mb-lg-0">
-                    <div class="healthy-product-img">
-                        <img src="/assets/img/food-5.png" alt="food">
-                        <ul class="star">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                        </ul>
-                        <div class="add-to-cart">
-                            <a href="#">Add to Cart</a>
-                            <a href="#" class="heart-wishlist">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                        </div>
-                        <h4>-24%</h4>
-                    </div>
-                    <span>Animal Feed</span>
-                    <a href="/products">Cattle Feed</a>
-                    <h6><del>$32.00</del>$22.00</h6>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <div class="deal-of-the-week">
-                    <div class="healthy-product-img">
-                        <h6>Deal of the Week</h6>
-                        <img src="/assets/img/food-6.png" alt="food">
-                        <ul class="star">
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                            <li><i class="fa-solid fa-star"></i></li>
-                        </ul>
-                    </div>
-                    <div class="healthy-product">
-                        <span>Animal Feed</span>
-                        <a href="/products">Healthy Dog Food Roaster Chicken</a>
-                        <h6><del>$32.00</del>$22.00</h6>
-                        <h5>up to 14% off</h5>
-                        <div class="add-to-cart">
-                            <a href="#" class="button">Add to Cart</a>
-                            <a href="#" class="heart-wishlist">
-                                <i class="fa-regular fa-heart"></i>
-                            </a>
-                        </div>
-                        <div id="countdown">
-                            <ul>
-                                <li><span id="days"></span>days</li>
-                                <li><span id="hours"></span>Hour</li>
-                                <li><span id="minutes"></span>Min</li>
-                                <li class="mb-0"><span id="seconds"></span>Sec</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<%--            <c:forEach var="product" items="${listP}" varStatus="loop">--%>
+<%--                <c:if test="${loop.index < 5}">--%>
+<%--                    <div class="col-lg-3 col-md-4 col-sm-6">--%>
+<%--                        <div class="healthy-product">--%>
+<%--                            <div class="healthy-product-img">--%>
+<%--                                <img src="${product.img}" alt="food">--%>
+<%--                                <div class="add-to-cart">--%>
+<%--                                    <a href="#" onclick="addToCart(${product.id})" class="button">Add to Cart</a>--%>
+<%--                                    <a href="#" class="heart-wishlist">--%>
+<%--                                        <i class="fa-regular fa-heart"></i>--%>
+<%--                                    </a>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <span>${product.category}</span>--%>
+<%--                            <a href="/products">Procan Adult Dog Food</a>--%>
+<%--                            <h6>$32.00</h6>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </c:if>--%>
+<%--                <c:if test="${loop.index == 5}">--%>
+<%--                <div class="col-lg-9">--%>
+<%--                    <div class="deal-of-the-week">--%>
+<%--                        <div class="healthy-product-img">--%>
+<%--                            <h6>Deal of the Week</h6>--%>
+<%--                            <img src="/assets/img/food-6.png" alt="food">--%>
+<%--                            <ul class="star">--%>
+<%--                                <li><i class="fa-solid fa-star"></i></li>--%>
+<%--                                <li><i class="fa-solid fa-star"></i></li>--%>
+<%--                                <li><i class="fa-solid fa-star"></i></li>--%>
+<%--                                <li><i class="fa-solid fa-star"></i></li>--%>
+<%--                                <li><i class="fa-solid fa-star"></i></li>--%>
+<%--                            </ul>--%>
+<%--                        </div>--%>
+<%--                        <div class="healthy-product">--%>
+<%--                            <span>Animal Feed</span>--%>
+<%--                            <a href="/products">Healthy Dog Food Roaster Chicken</a>--%>
+<%--                            <h6><del>$32.00</del>$22.00</h6>--%>
+<%--                            <h5>up to 14% off</h5>--%>
+<%--                            <div class="add-to-cart">--%>
+<%--                                <a href="#" class="button">Add to Cart</a>--%>
+<%--                                <a href="#" class="heart-wishlist">--%>
+<%--                                    <i class="fa-regular fa-heart"></i>--%>
+<%--                                </a>--%>
+<%--                            </div>--%>
+<%--                            <div id="countdown">--%>
+<%--                                <ul>--%>
+<%--                                    <li><span id="days"></span>days</li>--%>
+<%--                                    <li><span id="hours"></span>Hour</li>--%>
+<%--                                    <li><span id="minutes"></span>Min</li>--%>
+<%--                                    <li class="mb-0"><span id="seconds"></span>Sec</li>--%>
+<%--                                </ul>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--                </c:if>--%>
+<%--            </c:forEach>--%>
+
         </div>
     </div>
 </section>
@@ -725,6 +630,24 @@
 <!-- fancybox -->
 <script src="/assets/js/jquery.fancybox.min.js"></script>
 <script src="/assets/js/custom.js"></script>
+<script>
+    function addToCart(id) {
+        $.ajax({
+            url: "/addItemToCart",
+            type: "post",
+            data: {
+                productId: id,
+                quantity: 1
+            },
+            success: function (data) {
+                //Do Something to handle success
+                alert("Add to cart successfully");
+                // Update cart popup
+                location.reload();
+            },
+        });
+    }
+</script>
 </body>
 
 

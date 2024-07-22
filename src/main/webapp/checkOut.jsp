@@ -83,20 +83,27 @@
 </section>
 <section class="gap">
     <div class="container">
-        <form class="checkout-meta donate-page" action="/addBill" method="post">
+        <form class="checkout-meta donate-page" action="/addBill" method="post" id="form-add-bill">
             <div class="row">
                 <div class="col-lg-8">
                     <h3>Thông tin thanh toán</h3>
                     <p>Bạn có thể rút gọn quá trình điền thông tin bằng cách vào trang thông tin của bạn, <br>sau đó cập nhật các thông tin như: <b>Email</b>, <b>Địa chỉ</b>, <b>Số điện thoại</b></p>
-                    <div class="col-lg-12">
-                        <input type="text" class="input-text " value="${sessionScope.user.name}" name="userName" placeholder="Họ và Tên người nhận">
-                        <input type="email" class="input-text " name="email" placeholder="Email" value="${sessionScope.user.email}">
-<%--                        <input type="text" class="input-text " name="billing_company"  placeholder="Company name">--%>
+                    <div class="alert alert-danger mt-3" id="errorMsg" style="display: none;"></div>
 
+                    <div class="col-lg-12 mt-4">
+                        <input type="text" class="input-text " value="${sessionScope.user.name}" name="userName" placeholder="Họ và Tên người nhận">
+<%--                        <input type="text" class="input-text " name="billing_company"  placeholder="Company name">--%>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="email" class="input-text " name="email" placeholder="Email" value="${sessionScope.user.email}">
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="tel" class="input-text " name="phone"  placeholder="Phone" value="${sessionScope.user.phoneNumber}">
+                            </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <select name="city" class="nice-select Advice city">
-                                    <option>Tỉnh thành phố</option>
+                                    <option value="">Tỉnh thành phố</option>
                                     <c:forEach items="${provinces}" var="province">
                                         <option value="${province.name}" data-name="${province.idProvince}">${province.name}</option>
                                     </c:forEach>
@@ -107,12 +114,6 @@
                                     <option>District</option>
                                 </select>
                             </div>
-                            <div class="col-lg-6">
-                                <input type="text" name="voucherCode" placeholder="Voucher Code" value="${voucherCode}" onfocusout="applyVoucher()">
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="tel" class="input-text " name="phone"  placeholder="Phone" value="${sessionScope.user.phoneNumber}">
-                            </div>
                         </div>
                         <input type="text" name="address" placeholder="Address" value="${sessionScope.user.address}">
                         <select name="transportId" class="nice-select Advice country_to_state" onchange="changeTransport()">
@@ -120,7 +121,16 @@
                                 <option value="${transport.transportId}" data-price="${transport.priceTransPort}">${transport.transportName}</option>
                             </c:forEach>
                         </select>
-
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="text" name="voucherCode" placeholder="Voucher Code" value="${voucherCode}">
+                                <small id="voucher-message" class="form-text text-muted"></small>
+                            </div>
+                            <div class="col-lg-6">
+                                <button type="button" onclick="applyVoucher()" class="btn btn-outline-secondary">Apply</button>
+                            </div>
+                        </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -236,7 +246,7 @@
                     var totalPrice = totalPriceOriginal + shipFee - discountValue;
                     $("#discount-value").text(data.discountValue);
                     $("#total-price").text(new Intl.NumberFormat().format(totalPrice));
-
+                    $("#voucher-message").text("Voucher applied successfully");
                 } else {
                     var shipFee = $("#ship_fee").text();
                     shipFee = shipFee === "free" ? 0 : parseInt(shipFee.replace(/\,/g, '').replace(/\./g, ''));
@@ -245,7 +255,7 @@
                     var totalPrice = totalPriceOriginal + shipFee - discountValue;
                     $("#discount-value").text(discountValue);
                     $("#total-price").text(new Intl.NumberFormat().format(totalPrice));
-                    alert(data.message);
+                    $("#voucher-message").text(data.message);
                 }
             }
         });
@@ -318,6 +328,30 @@
                 $('#district-list').html(html);
                 $('#district-list').niceSelect('update');
                 // $('#district-list').css('display', 'block');
+            }
+        });
+    });
+
+    // Send form
+    $('#form-add-bill').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            url: "/addBill",
+            type: "post",
+            data: $(this).serialize(),
+            success: function (response) {
+                if (response.status !== "error") {
+                    window.location.href = "/bills";
+                } else {
+                    $('#errorMsg').text(response.message);
+                    $('#errorMsg').css('display', 'block');
+                    alert(response.message);
+                    // Time out
+                    setTimeout(function () {
+                        $('#errorMsg').text('');
+                        $('#errorMsg').css('display', 'none');
+                    }, 3000);
+                }
             }
         });
     });

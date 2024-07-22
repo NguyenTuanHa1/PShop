@@ -31,6 +31,24 @@
     <!-- jQuery -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/preloader.js"></script>
+    <style>
+        .active {
+            background-color: #fa441d;
+            color: white;
+        }
+        .disabled {
+            pointer-events: none;
+            cursor: not-allowed;
+            background-color: #e9ecef !important;
+            color: #6c757d;
+        }
+        #pagination-bar {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <!-- loader -->
@@ -88,18 +106,7 @@
                     <h3>Category</h3>
                     <div class="boder-bar"></div>
                     <ul class="category">
-<%--                        <li>--%>
-<%--                            <a href="#">Cat Supplies<span>32</span></a>--%>
-<%--                        </li>--%>
-<%--                        <li>--%>
-<%--                            <a href="#">Dog Supplies<span>12</span></a>--%>
-<%--                        </li>--%>
-<%--                        <li>--%>
-<%--                            <a href="#">Animal Feed<span>14</span></a>--%>
-<%--                        </li>--%>
-<%--                        <li class="end">--%>
-<%--                            <a href="#">Accessories<span>32</span></a>--%>
-<%--                        </li>--%>
+
                         <c:forEach items="${listType}" var="type">
                             <li>
                                 <a href="/products?typeId=${type.typeProductId}">${type.typeProductName}<span>${type.quantity}</span></a>
@@ -115,20 +122,20 @@
                             <div class="price-wrap">
                                 <span class="price-title">Price</span>
                                 <div class="price-wrap-1">
-                                    <input id="one">
-<%--                                    <label for="one">₫</label>--%>
+                                    <input id="one" style="width: 100%;">
+                                    <label for="one">₫</label>
                                 </div>
                                 <div class="price-wrap_line">-</div>
-                                <div class="price-wrap-2">
-                                    <input id="two">
+                                <div class="price-wrap-2" style="">
+                                    <input id="two" style="width: 100%;">
                                     <label for="two">₫</label>
                                 </div>
                             </div>
                             <div class="price-field">
-                                <input type="range"  min="0" max="2000000" value="0" id="lower">
-                                <input type="range" min="0" max="20000000" value="20000000" id="upper">
+                                <input type="range" min="0" max="2000000" value="0" id="lower">
+                                <input type="range" min="0" max="2000000" value="2000000" id="upper">
                             </div>
-                            <button class="w-100 button">Filter</button>
+                            <button class="w-100 button" onclick="filterPrice()">Filter</button>
                         </fieldset>
                     </div>
                 </div>
@@ -151,15 +158,17 @@
             </div>
             <div class="col-lg-9">
                 <div class="items-number">
-                    <span>Items 1-9 of 6133</span>
+                    <span>Items 1-${listProduct.size()} of ${totalAll}</span>
                     <div class="d-flex align-items-center">
                         <span>Sort By</span>
-                        <select class="nice-select Advice">
-                            <option>Recently Added</option>
-                            <option>Services 1</option>
-                            <option>Services 2</option>
-                            <option>Services 3</option>
-                            <option>Services 4</option>
+                        <select name="sort" id="sort" onchange="sortProduct(this)">
+                            <option value="default">Sort by Default</option>
+                            <option value="priceProduct" data-type="asc">Price: Low to High</option>
+                            <option value="priceProduct" data-type="desc">Price: High to Low</option>
+                            <option value="productName" data-type="asc">Name: A to Z</option>
+                            <option value="productName" data-type="desc">Name: Z to A</option>
+                            <option value="createdDate" data-type="asc">Date: Old to New</option>
+                            <option value="createdDate" data-type="desc">Date: New to Old</option>
                         </select>
                     </div>
                 </div>
@@ -206,16 +215,54 @@
                             </div>
                         </div>
                     </c:forEach>
-
-                    <ul class="pagination m-auto">
-                        <li class="prev"><a href="#"><i class='fa-solid fa-arrow-left'></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">......</a></li>
-                        <li><a href="#">18</a></li>
-                        <li class="next"><a href="#"><i class='fa-solid fa-arrow-right'></i></a></li>
-                    </ul>
                 </div>
+                <ul class="pagination m-auto" id="pagination-bar">
+                    <c:choose>
+                        <c:when test="${page == 1}">
+                            <li class="prev disabled"><a href="#"><i class='fa-solid fa-arrow-left'></i></a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <c:choose>
+                                <c:when test="${not empty typeId}">
+                                    <li class="prev"><a href="/products?typeId=${typeId}&page=${page - 1}"><i class='fa-solid fa-arrow-left'></i></a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="prev"><a href="/products?page=${page - 1}"><i class='fa-solid fa-arrow-left'></i></a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <c:forEach begin="1" end="${totalPage}" varStatus="i">
+                        <li class="${i.index == page ? 'active' : ''}">
+                            <c:choose>
+                                <c:when test="${not empty typeId}">
+                                    <a href="/products?typeId=${typeId}&page=${i.index}">${i.index}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/products?page=${i.index}">${i.index}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </li>
+                    </c:forEach>
+
+
+                    <c:choose>
+                        <c:when test="${page == totalPage}">
+                            <li class="next disabled"><a href="#"><i class='fa-solid fa-arrow-right'></i></a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <c:choose>
+                                <c:when test="${not empty typeId}">
+                                    <li class="next"><a href="/products?typeId=${typeId}&page=${page + 1}"><i class='fa-solid fa-arrow-right'></i></a></li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="next"><a href="/products?page=${page + 1}"><i class='fa-solid fa-arrow-right'></i></a></li>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
             </div>
         </div>
     </div>
@@ -258,6 +305,31 @@
                 location.reload();
             },
         });
+    }
+    const sortProduct = (e) => {
+        const sort = e.value;
+        const type = e.options[e.selectedIndex].getAttribute('data-type');
+        window.location.href = "/products?sort=" + sort + "&typeSort=" + type;
+    }
+
+    const filterPrice = () => {
+        const lower = document.getElementById('lower').value;
+        const upper = document.getElementById('upper').value;
+        window.location.href = "/products?lower=" + lower + "&upper=" + upper;
+    }
+
+    window.onload = function() {
+        // Get from parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const lower = urlParams.get('lower');
+        const upper = urlParams.get('upper');
+        if (lower && upper) {
+            document.getElementById('lower').value = lower;
+            document.getElementById('upper').value = upper;
+            document.getElementById('one').value = lower;
+            document.getElementById('two').value = upper;
+        }
+
     }
 </script>
 </body>

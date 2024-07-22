@@ -22,6 +22,11 @@ public class Cart {
         this.createdDate = createdDate;
     }
 
+    public Cart(int cartId, int userId) {
+        this.cartId = cartId;
+        this.userId = userId;
+    }
+
     public Cart(int userId) {
         this.userId = userId;
     }

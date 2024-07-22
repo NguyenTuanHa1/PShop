@@ -3,10 +3,34 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StatisticsDAO {
+
+    // getRevenueBetweenDates
+    public Map<String, Long> getRevenueBetweenDates(String fromDate, String toDate) {
+        Map<String, Long> revenueData = new LinkedHashMap<>();
+        String query = "SELECT DATE(createdDate) AS date, SUM(totalPrice) AS dailyRevenue FROM bill WHERE DATE(createdDate) BETWEEN ? AND ? GROUP BY DATE(createdDate)";
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, fromDate);
+            ps.setString(2, toDate);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String date = rs.getString("date");
+                    Long revenue = rs.getLong("dailyRevenue");
+                    revenueData.put(date, revenue);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return revenueData;
+    }
+
 
     public Map<String, Object> getStatistics() {
         Map<String, Object> statistics = new HashMap<>();

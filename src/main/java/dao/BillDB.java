@@ -31,7 +31,7 @@ public class BillDB extends DBTest{
         String query = "SELECT b.*, t.transportName, p.typePayment FROM bill b\n"
                 + "JOIN transport t ON b.transportId = t.transportId\n"
                 + "JOIN payment p ON b.paymentId = p.paymentId\n"
-                + "WHERE b.statusBill = 'Đã xác nhận'";
+                + "WHERE b.statusBill = 'Đã xác nhận' ORDER BY b.createdDate ASC";
         try {
             conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
@@ -72,7 +72,7 @@ public class BillDB extends DBTest{
                 + "SELECT userId, userName, email, city, district, phone, address, note, voucherCode, transportId, paymentId, totalPrice "
                 + "FROM bill WHERE billId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, billID);
             ps.executeUpdate();
@@ -91,7 +91,7 @@ public class BillDB extends DBTest{
                 + "JOIN products p ON bd.productId = p.productId "
                 + "WHERE bd.billId = ?";
         try {
-            openConnection();
+            conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);
             ps.setInt(1, billID);
             rs = ps.executeQuery();
@@ -308,7 +308,7 @@ public class BillDB extends DBTest{
         List<Bill> list = new ArrayList<>();
         String query = "SELECT b.*, t.transportName, p.typePayment FROM bill b\n" +
                 "JOIN transport t ON b.transportId = t.transportId\n" +
-                "JOIN payment p ON b.paymentId = p.paymentId";
+                "JOIN payment p ON b.paymentId = p.paymentId ORDER BY b.createdDate ASC";
         try {
             conn = DBContext.getConnection();//mo ket noi voi sql
             assert conn != null;
@@ -350,7 +350,7 @@ public class BillDB extends DBTest{
                 + "JOIN transport t ON b.transportId = t.transportId\n"
                 + "JOIN payment p ON b.paymentId = p.paymentId\n"
                 + "JOIN users u ON b.userId = u.userId\n"
-                + "WHERE b.userId = ?";
+                + "WHERE b.userId = ? ORDER BY b.createdDate ASC";
         try {
             conn = DBContext.getConnection();
             ps = conn.prepareStatement(query);

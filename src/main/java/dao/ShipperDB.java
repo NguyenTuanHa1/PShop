@@ -21,6 +21,7 @@ public class ShipperDB extends DBTest{
         String query = "INSERT INTO shippers (userID, description, status, createdDate, updatedDate) VALUES (?, ?, ?, ?, ?)";
         try {
             conn = DBContext.getConnection();
+            assert conn != null;
             ps = conn.prepareStatement(query);
             ps.setInt(1, shipper.getUserID());
             ps.setString(2, shipper.getDescription());
@@ -37,28 +38,36 @@ public class ShipperDB extends DBTest{
     public List<Shipper> getAllShippers() {
         List<Shipper> listShippers = new ArrayList<>();
         String query = "SELECT * FROM shippers";
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
             conn = DBContext.getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Shipper shipper = new Shipper();
-                shipper.setShipperID(rs.getInt("shipperID"));
-                shipper.setUserID(rs.getInt("userID"));
-                shipper.setDescription(rs.getString("description"));
-                shipper.setStatus(rs.getBoolean("status"));
-                shipper.setCreatedDate(rs.getString("createdDate"));
-                shipper.setUpdatedDate(rs.getString("updatedDate"));
-                shipper.setShipper(new UserDB().findUserById(rs.getInt("userID")));
-                listShippers.add(shipper);
+            if (conn != null) {
+                ps = conn.prepareStatement(query);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Shipper shipper = new Shipper();
+                    shipper.setShipperID(rs.getInt("shipperID"));
+                    shipper.setUserID(rs.getInt("userID"));
+                    shipper.setDescription(rs.getString("description"));
+                    shipper.setStatus(rs.getBoolean("status"));
+                    shipper.setCreatedDate(rs.getString("createdDate"));
+                    shipper.setUpdatedDate(rs.getString("updatedDate"));
+                    shipper.setShipper(new UserDB().findUserById(rs.getInt("userID")));
+                    listShippers.add(shipper);
+                }
             }
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println(2);
+            e.printStackTrace();
         } finally {
             closeConnection();
         }
         return listShippers;
     }
+
 
     public Shipper findShipperById(int shipper) {
         String query = "SELECT * FROM shippers WHERE shipperID = ?";

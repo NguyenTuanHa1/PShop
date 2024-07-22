@@ -137,12 +137,11 @@
                     url: '/buyAgain',
                     data: $('#form-buyAgain').serialize(),
                     success: function (data) {
-                        // Check data, convert data to String
                         if (data.toString().trim() === 'success') {
                             alert('Mua lại đơn hàng thành công!');
                             location.reload();
                         } else {
-                            alert('Mua lại đơn hàng thất bại!');
+                            alert('Sản phẩm đã hết hàng hoặc không còn tồn tại!');
                         }
 
                     }

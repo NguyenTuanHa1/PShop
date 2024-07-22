@@ -82,7 +82,7 @@
 <section class="gap">
     <div class="container">
         <div class="row">
-            <form action="/processCheckOut" class="woocommerce-cart-form" method="POST">
+            <form action="/processCheckOut" class="woocommerce-cart-form" method="GET">
                 <div style="overflow-x:auto;overflow-y: hidden;">
                     <table class="shop_table table-responsive">
                         <thead>

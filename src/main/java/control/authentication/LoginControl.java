@@ -25,23 +25,23 @@ import java.util.List;
 @WebServlet(name = "LoginControl", urlPatterns = {"/login"})
 public class LoginControl extends HttpServlet {
 
-   
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	//b1 get user,pass from cookie
-    	Cookie arr[] = request.getCookies();
-    	if(arr != null) {
-    		for(Cookie o : arr) {
-        		if(o.getName().equals("usernameCookie")) {
-        			request.setAttribute("username", o.getValue());
-        		}
-        		if(o.getName().equals("passwordCookie")) {
-        			request.setAttribute("password", o.getValue());
-        		}
-        	}
-    	}
-    	//b2: set user,pass to login form
+        //b1 get user,pass from cookie
+        Cookie arr[] = request.getCookies();
+        if(arr != null) {
+            for(Cookie o : arr) {
+                if(o.getName().equals("usernameCookie")) {
+                    request.setAttribute("username", o.getValue());
+                }
+                if(o.getName().equals("passwordCookie")) {
+                    request.setAttribute("password", o.getValue());
+                }
+            }
+        }
+        //b2: set user,pass to login form
         request.getRequestDispatcher("login.jsp").forward(request, response);
     }
 
@@ -57,54 +57,73 @@ public class LoginControl extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        processRequest(request, response);
-    	 response.setContentType("text/html;charset=UTF-8");
-         String email = request.getParameter("email");
-         String password = request.getParameter("password");
-         String remember =request.getParameter("remember");
+        response.setContentType("text/html;charset=UTF-8");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String remember =request.getParameter("remember");
 
         Authentication authenticationDB = new Authentication();
         CartDB cartDB = new CartDB();
-         User user = authenticationDB.login(email, password);
-         if (user == null) {
-             request.setAttribute("errorMsgLogin", "Sai tên đăng nhập hoặc mật khẩu!");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
-         } else {
-             if(!user.isStatus() && user.getToken() != null) {
+        User user = authenticationDB.login(email, password);
+        if (user == null) {
+            request.setAttribute("errorMsgLogin", "Sai tên đăng nhập hoặc mật khẩu!");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            if(!user.isStatus() && user.getToken() != null) {
                 request.setAttribute("errorMsgLogin", "Tài khoản chưa được kích hoạt!");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
                 return;
-             }
-             if (user.isBan()){
-                 request.setAttribute("errorMsgLogin", "Tài khoản của bạn đã bị khóa, vui lòng liên hệ admin để mở khóa!");
-                 request.getRequestDispatcher("login.jsp").forward(request, response);
-                 return;
-             }
-             List<CartProducts> listCartProducts = cartDB.getCartItems(user.getUserID());
-             if (listCartProducts == null) {
-                 listCartProducts = new ArrayList<>();
-             }
-             HttpSession session = request.getSession();
-             session.setAttribute("user", user);
-             session.setAttribute("cart", listCartProducts);
-             session.setMaxInactiveInterval(60*60*24);
-             Cookie usernameCookie = new Cookie("usernameCookie", email);
-             Cookie passwordCookie = new Cookie("passwordCookie", password);
-             if(remember != null) {
-                 passwordCookie.setMaxAge(60*60*24);
-             }else {
-                 passwordCookie.setMaxAge(0);
-             }
+            }
+            if (user.isBan()){
+                request.setAttribute("errorMsgLogin", "Tài khoản của bạn đã bị khóa, vui lòng liên hệ admin để mở khóa!");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+                return;
+            }
+            // Get cart items current
+            HttpSession session = request.getSession();
 
-             usernameCookie.setMaxAge(60*60*24*365);
+            List<CartProducts> listCartCurrent = session.getAttribute("cart") != null ? (List<CartProducts>) session.getAttribute("cart") : new ArrayList<>();
 
-             response.addCookie(usernameCookie);
-             response.addCookie(passwordCookie);
-             String token = JwtUtil.generateToken(String.valueOf(user.getUserID()));
-             response.addCookie(new Cookie("token", token));
-             response.setHeader("Authorization", token);
-             session.setAttribute("token", token);
-             response.sendRedirect("/");
-         }
+            List<CartProducts> listCartProducts = cartDB.getCartItems(user.getUserID());
+            if (listCartProducts == null) {
+                listCartProducts = new ArrayList<>();
+            }
+            // Merge cart items
+            for (CartProducts cartProduct : listCartCurrent) {
+                boolean isExist = false;
+                for (CartProducts cartProduct1 : listCartProducts) {
+                    if (cartProduct.getProduct().getProductId() == cartProduct1.getProduct().getProductId()) {
+                        cartProduct1.setQuantity(cartProduct1.getQuantity() + cartProduct.getQuantity());
+                        isExist = true;
+                        break;
+                    }
+                }
+                if (!isExist) {
+                    listCartProducts.add(cartProduct);
+                }
+            }
+
+            session.setAttribute("user", user);
+            session.setAttribute("cart", listCartProducts);
+            session.setMaxInactiveInterval(60*60*24);
+            Cookie usernameCookie = new Cookie("usernameCookie", email);
+            Cookie passwordCookie = new Cookie("passwordCookie", password);
+            if(remember != null) {
+                passwordCookie.setMaxAge(60*60*24);
+            }else {
+                passwordCookie.setMaxAge(0);
+            }
+
+            usernameCookie.setMaxAge(60*60*24*365);
+
+            response.addCookie(usernameCookie);
+            response.addCookie(passwordCookie);
+            String token = JwtUtil.generateToken(String.valueOf(user.getUserID()));
+            response.addCookie(new Cookie("token", token));
+            response.setHeader("Authorization", token);
+            session.setAttribute("token", token);
+            response.sendRedirect("/");
+        }
     }
 
     /**

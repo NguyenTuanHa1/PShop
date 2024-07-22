@@ -124,15 +124,10 @@
             <a href="/"><img src="/assets/img/logo.jpg" alt="logo"></a>
             <nav class="navbar">
                 <ul class="navbar-links">
-                    <li class="navbar-dropdown menu-item-children">
-                        <a href="javascript:void(0)"><i>
-                            <img alt="home" src="/assets/img/home.png">
+                    <li class="navbar-dropdown">
+                        <a href="/"><i>
                         </i>home</a>
-                        <div class="dropdown">
-                            <a href="index-2.html">home 1</a>
-                            <a href="index-3.html">home 2</a>
-                            <a href="index-4.html">home 3</a>
-                        </div>
+
                     </li>
                     <li class="navbar-dropdown">
                         <a href="/about">About</a>

@@ -59,14 +59,6 @@ public class ProcessCheckOutServlet extends HttpServlet {
         if(!CheckPermission.checkLogin(request, response)) {
             return;
         }
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if(!CheckPermission.checkLogin(request, response)) {
-            return;
-        }
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
@@ -92,5 +84,10 @@ public class ProcessCheckOutServlet extends HttpServlet {
         request.setAttribute("listTransport", transportDB.getAllTransport());
         request.setAttribute("listPayment", paymentDB.getAllPayment());
         processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

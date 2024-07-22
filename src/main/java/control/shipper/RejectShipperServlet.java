@@ -29,7 +29,7 @@ public class RejectShipperServlet extends HttpServlet {
         shipperDB.updateShipper(shipper);
         UserDB userDB = new UserDB();
         User user = userDB.findUserById(shipper.getUserID());
-        user.setTypeAccountId(3);
+        user.setTypeAccountId(1);
         userDB.updateUser(user);
         request.setAttribute("successMessage", "Từ chối shipper thành công");
         EmailUtils.sendEmail(shipper.getShipper().getEmail(), "Từ chối shipper", "Xin lỗi, bạn đã bị từ chối làm shipper");

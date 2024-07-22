@@ -7,6 +7,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDB extends DBTest{
+
+    // getProductByPriceRange
+    public List<Product> getProductByPriceRange(int lower, int upper) {
+        List<Product> list = new ArrayList<>();
+        String query = "SELECT p.*, t.typeProductName, s.sizeName, tm.trademarkName, "
+                + "d.discountPercentage, "
+                + "(p.priceProduct - (p.priceProduct * d.discountPercentage / 100)) AS priceAfterDiscount "
+                + "FROM products p "
+                + "JOIN TypeProduct t ON p.typeProductId = t.typeProductId "
+                + "JOIN Size s ON p.sizeId = s.sizeId "
+                + "JOIN Trademark tm ON p.trademarkId = tm.trademarkId "
+                + "LEFT JOIN Product_Discount pd ON p.productId = pd.productId "
+                + "LEFT JOIN Discount d ON pd.discountId = d.discountId "
+                + "WHERE p.priceProduct >= ? AND p.priceProduct <= ? AND p.status = 1";
+        try {
+            conn = DBContext.getConnection();
+            assert conn != null;
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, lower);
+            ps.setInt(2, upper);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getInt(7),
+                        rs.getInt(8),
+                        rs.getInt(9),
+                        rs.getInt(10),
+                        rs.getInt(11),
+                        rs.getString(12),
+                        rs.getDate(13),
+                        rs.getDate(14),
+                        rs.getBoolean(15),
+                        rs.getString(16),
+                        rs.getString(17),
+                        rs.getString(18),
+                        rs.getFloat(19),
+                        rs.getInt(20)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeConnection();
+        }
+        return list;
+    }
     public int getProductQuantity(int productId) {
         String query = "SELECT quantityProduct FROM products WHERE productId = ?";
         try {
@@ -296,7 +346,7 @@ public class ProductDB extends DBTest{
             closeConnection();
         }
     }
-    public List<Product> getTopProduct() {
+    public List<Product> getTopProduct(int limit) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT p.*, t.typeProductName, s.sizeName, tm.trademarkName, "
                 + "d.discountPercentage, "
@@ -307,11 +357,12 @@ public class ProductDB extends DBTest{
                 + "JOIN Trademark tm ON p.trademarkId = tm.trademarkId "
                 + "LEFT JOIN Product_Discount pd ON p.productId = pd.productId "
                 + "LEFT JOIN Discount d ON pd.discountId = d.discountId "
-                + " limit 3";
+                + " limit ?";
         try {
             conn = DBContext.getConnection();//mo ket noi voi sql
             assert conn != null;
             ps = conn.prepareStatement(query);
+            ps.setInt(1, limit);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1),
@@ -404,7 +455,26 @@ public class ProductDB extends DBTest{
         }
         return false;
     }
-    public List<Product> getAllProductWithDiscount() {
+
+    // getTotalProduct
+    public int getTotalProduct() {
+        String query = "SELECT COUNT(*) FROM products WHERE status = 1";
+        try {
+            conn = DBContext.getConnection();
+            assert conn != null;
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            closeConnection();
+        }
+        return 0;
+    }
+    public List<Product> getAllProductWithDiscount(int offset, String sort, String typeSort) {
         List<Product> list = new ArrayList<>();
         String query = "SELECT p.*, t.typeProductName, s.sizeName, tm.trademarkName, "
                 + "d.discountPercentage, "
@@ -416,11 +486,13 @@ public class ProductDB extends DBTest{
                 + "LEFT JOIN Product_Discount pd ON p.productId = pd.productId "
                 + "LEFT JOIN Discount d ON pd.discountId = d.discountId "
                 + "WHERE p.status = 1 "
-                + "ORDER BY p.productId DESC";
+                + "ORDER BY p." + sort + " " + typeSort + " "
+                + "LIMIT 9 OFFSET ?";
         try {
             conn = DBContext.getConnection();
             assert conn != null;
             ps = conn.prepareStatement(query);
+            ps.setInt(1, offset);
             rs = ps.executeQuery();
             while (rs.next()) {
                 list.add(new Product(rs.getInt(1),

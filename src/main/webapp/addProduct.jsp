@@ -26,6 +26,9 @@
     <!-- jQuery -->
     <script src="/assets/js/jquery-3.6.0.min.js"></script>
     <script src="/assets/js/preloader.js"></script>
+    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+
+
 </head>
 <body>
 <!-- loader -->
@@ -112,8 +115,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="describeProduct">Description</label>
-                        <textarea id="describeProduct" name="describeProduct" class="form-control"></textarea>
+                        <label for="editor">Description</label>
+                        <textarea id="editor" name="describeProduct" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -149,5 +152,11 @@
 <!-- fancybox -->
 <script src="/assets/js/jquery.fancybox.min.js"></script>
 <script src="/assets/js/custom.js"></script>
+<script>
+    CKEDITOR.replace('editor', {
+        filebrowserUploadUrl: '/uploadImage',
+        filebrowserUploadMethod: 'form'
+    });
+</script>
 </body>
 </html>

@@ -1,9 +1,10 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="dao.StatisticsDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -12,7 +13,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Thống kê doanh thu</title>
     <link rel="icon" href="assets/img/heading-img.png">
-    <!-- CSS only -->
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -22,7 +22,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-<!-- loader -->
 <div class="preloader">
     <div class="container">
         <div class="dot dot-1"></div>
@@ -30,7 +29,6 @@
         <div class="dot dot-3"></div>
     </div>
 </div>
-<!-- loader end -->
 <%@include file="header.jsp" %>
 
 <section class="banner" style="background-color: #fff8e5; background-image:url(assets/img/banner.png)">
@@ -74,82 +72,125 @@
         <div class="row">
             <div class="col-lg-12">
                 <h3>Thống kê doanh thu</h3>
-                <%
-                    StatisticsDAO statisticsDAO = new StatisticsDAO();
-                    Map<String, Object> statistics = statisticsDAO.getStatistics();
-                %>
-                <table class="table table-bordered">
+                <table class="table table-bordered mb-4">
                     <tr>
                         <th>Doanh thu hôm nay</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("dailyRevenue")%>' type="number" groupingUsed="true" /> ₫</td>
+                        <td><fmt:formatNumber value="${statistics.dailyRevenue}" type="number" groupingUsed="true" /> ₫</td>
                     </tr>
                     <tr>
                         <th>Doanh thu tháng này</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("monthlyRevenue")%>' type="number" groupingUsed="true" /> ₫</td>
+                        <td><fmt:formatNumber value="${statistics.monthlyRevenue}" type="number" groupingUsed="true" /> ₫</td>
                     </tr>
                     <tr>
                         <th>Doanh thu năm nay</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("yearlyRevenue")%>' type="number" groupingUsed="true" /> ₫</td>
+                        <td><fmt:formatNumber value="${statistics.yearlyRevenue}" type="number" groupingUsed="true" /> ₫</td>
                     </tr>
                     <tr>
                         <th>Số khách hàng</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("customerCount")%>' type="number" groupingUsed="true" /></td>
+                        <td><fmt:formatNumber value="${statistics.customerCount}" type="number" groupingUsed="true" /></td>
                     </tr>
                     <tr>
                         <th>Tổng số hàng đã bán</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("soldItemsCount")%>' type="number" groupingUsed="true" /></td>
+                        <td><fmt:formatNumber value="${statistics.soldItemsCount}" type="number" groupingUsed="true" /></td>
                     </tr>
                     <tr>
                         <th>Số đơn hàng trong hôm nay</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("soldItemsToday")%>' type="number" groupingUsed="true" /></td>
+                        <td><fmt:formatNumber value="${statistics.soldItemsToday}" type="number" groupingUsed="true" /></td>
                     </tr>
                     <tr>
                         <th>Số đơn hàng trong tháng này</th>
-                        <td><fmt:formatNumber value='<%=statistics.get("soldItemsThisMonth")%>' type="number" groupingUsed="true" /></td>
+                        <td><fmt:formatNumber value="${statistics.soldItemsThisMonth}" type="number" groupingUsed="true" /></td>
                     </tr>
                     <tr>
                         <th>Sản phẩm bán chạy nhất</th>
-                        <td><a href='/detailProduct?id=<%=statistics.get("bestSellerID")%>'><%=statistics.get("bestSeller")%></a> : <%=statistics.get("bestSellerQuantity") %> sản phẩm đã bán</td>
+                        <td><a href='/detailProduct?id=${statistics.bestSellerID}'>${statistics.bestSeller}</a> : ${statistics.bestSellerQuantity} sản phẩm đã bán</td>
                     </tr>
                 </table>
 
                 <h3>Biểu đồ thống kê</h3>
+                <form method="get" action="/dashboard" class="mt-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="fromDate">From Date:</label>
+                            <input type="date" id="fromDate" name="fromDate" class="form-control" required value="${fromDate}">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="toDate">To Date:</label>
+                            <input type="date" id="toDate" name="toDate" class="form-control" required value="${toDate}">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Xem thống kê</button>
+                </form>
+
                 <canvas id="revenueChart" width="400" height="200"></canvas>
                 <script>
                     var ctx = document.getElementById('revenueChart').getContext('2d');
-                    var revenueChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Doanh thu hôm nay', 'Doanh thu tháng này', 'Doanh thu năm nay'],
-                            datasets: [{
-                                label: 'Doanh thu (₫)',
-                                data: [<%=statistics.get("dailyRevenue")%>, <%=statistics.get("monthlyRevenue")%>, <%=statistics.get("yearlyRevenue")%>],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(75, 192, 192, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) {
-                                            return value.toLocaleString() + ' ₫';
+                    var dailyLabels = [];
+                    var dailyData = [];
+
+                    <% if (request.getAttribute("revenueData") != null) { %>
+                    <% Map<String, Long> revenueData = (Map<String, Long>) request.getAttribute("revenueData"); %>
+                    <% for (Map.Entry<String, Long> entry : revenueData.entrySet()) { %>
+                    dailyLabels.push('<%= entry.getKey() %>');
+                    dailyData.push(<%= entry.getValue() %>);
+                    <% } %>
+                    <% } %>
+
+                    if (dailyData.length == 1) {
+                        // Vẽ biểu đồ cột
+                        var revenueChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: dailyLabels,
+                                datasets: [{
+                                    label: 'Doanh thu (₫)',
+                                    data: dailyData,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return value.toLocaleString() + ' ₫';
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                    });
+                        });
+                    } else if (dailyData.length > 1){
+                        var revenueChart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: dailyLabels,
+                                datasets: [{
+                                    label: 'Doanh thu (₫)',
+                                    data: dailyData,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1,
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        ticks: {
+                                            callback: function(value) {
+                                                return value.toLocaleString() + ' ₫';
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 </script>
             </div>
         </div>
@@ -158,7 +199,6 @@
 
 <%@include file="footer.jsp" %>
 
-<!-- Bootstrap Js -->
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/custom.js"></script>
 </body>

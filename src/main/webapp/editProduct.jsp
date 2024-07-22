@@ -28,6 +28,8 @@
     <!-- jQuery -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/preloader.js"></script>
+    <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+
 </head>
 <body>
 <!-- loader -->
@@ -127,8 +129,8 @@
                 <input type="number" class="form-control" id="quantity" name="quantity" value="${product.quantity}" required>
             </div>
             <div class="form-group">
-                <label for="describeProduct">Description:</label>
-                <textarea class="form-control" id="describeProduct" name="describeProduct" required>${product.describeProduct}</textarea>
+                <label for="editor">Description:</label>
+                <textarea class="form-control" id="editor" name="describeProduct" required>${product.describeProduct}</textarea>
             </div>
             <div class="form-group">
                 <label for="status">Status:</label>
@@ -159,5 +161,9 @@
 <!-- fancybox -->
 <script src="assets/js/jquery.fancybox.min.js"></script>
 <script src="assets/js/custom.js"></script>
+<script>
+    CKEDITOR.replace('editor');
+
+</script>
 </body>
 </html>

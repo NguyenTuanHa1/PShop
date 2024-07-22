@@ -60,7 +60,7 @@
 
                 <a class="font-bold" href="/cart">View Cart</a>
 
-                <form method="post" action="/processCheckOut">
+                <form method="get" action="/processCheckOut">
                     <button id="checkOutBtn" class="btn btn-success" type="submit">Checkout</button>
                 </form>
 

@@ -146,13 +146,15 @@
         <div class="product-info p-60">
           <div class="d-flex align-items-center">
             <div class="start d-flex align-items-center">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+              <c:forEach var="i" begin="0" end="${avgRating }">
+                <i class="fa-solid fa-star"></i>
+              </c:forEach>
+                <c:forEach var="i" begin="${avgRating + 2}" end="5">
+                    <i class="fa-solid fa-star" style="color: #ccc;"></i>
+                </c:forEach>
+
             </div>
-            <span>12 Reviews</span>
+            <span>${listReview.size()} reviews</span>
           </div>
           <h3>${product.productName}</h3>
           <form class="variations_form">
@@ -201,18 +203,17 @@
             <ul class="product_meta">
               <li><span class="theme-bg-clr">Category:</span>
                 <ul class="pd-cat">
-                  <li><a href="#">Pet</a>,
-                    <a href="#">Pet Food </a></li>
+                  <li><a href="#">${typeProduct.typeProductName}</a></li>
                 </ul>
               </li>
-              <li><span class="theme-bg-clr">Tags:</span>
-                <ul class="pd-tag">
-                  <li>
-                    <a href="#">Pet</a>
-                    ,<a href="#">Pet care</a>
-                  </li>
-                </ul>
-              </li>
+<%--              <li><span class="theme-bg-clr">Tags:</span>--%>
+<%--                <ul class="pd-tag">--%>
+<%--                  <li>--%>
+<%--                    <a href="#">Pet</a>--%>
+<%--                    ,<a href="#">Pet care</a>--%>
+<%--                  </li>--%>
+<%--                </ul>--%>
+<%--              </li>--%>
             </ul>
           </form>
         </div>
@@ -223,7 +224,7 @@
 <section class="gap">
   <div class="container">
     <div class="information">
-      <h3>Related Products</h3>
+      <h3>Description</h3>
       <div class="boder-bar"></div>
       <p>${product.describeProduct}</p>
     </div>

@@ -33,25 +33,24 @@ public class CartDB extends DBTest{
         return false;
     }
 
-    public void createCart(int userId) {
+    public Cart createCart(int userId) {
         String query = "INSERT INTO carts (userId) VALUES (?)";
         try {
-            conn = DBContext.getConnection();//mo ket noi voi sql
+            conn = DBContext.getConnection();
             assert conn != null;
-            ps = conn.prepareStatement(query);
+            ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, userId);
             ps.executeUpdate();
-        } catch (Exception e) {
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return new Cart(rs.getInt(1), userId);
+            }
+        } catch (SQLException e) {
             System.out.println(e);
         } finally {
-            try {
-                if (rs != null) rs.close();
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                System.out.println(e);
-            }
+            closeConnection();
         }
+        return null;
     }
 
     public List<CartProducts> getCartItems(int userId) {
@@ -108,6 +107,7 @@ public class CartDB extends DBTest{
                 list.add(new CartProducts(product, discount, rs.getInt(26)));
             }
         } catch (SQLException e) {
+            System.out.println(22);
             System.out.println(e);
         } finally {
             try {
@@ -176,6 +176,7 @@ public class CartDB extends DBTest{
                 return new Cart(rs.getInt(19), user, rs.getDate(21));
             }
         } catch (SQLException e) {
+            System.out.println(333);
             System.out.println(e);
         } finally {
             closeConnection();
@@ -195,6 +196,7 @@ public class CartDB extends DBTest{
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e);
+            System.out.println(4444);
         } finally {
             closeConnection();
         }
@@ -202,31 +204,32 @@ public class CartDB extends DBTest{
 
     public void addProductToCart(int userId, int productId, int quantity) {
         String query = "INSERT INTO cart_products (cartId, productId, quantity, discountId) VALUES (?, ?, ?, ?)";
-        try {
-            conn = DBContext.getConnection();
+        try (Connection conn = DBContext.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
             Cart cart = getCart(userId);
-            int cartId;
-            cartId = cart.getCartId();
+            int cartId = cart.getCartId();
 
-
-            ps = conn.prepareStatement(query);
             ps.setInt(1, cartId);
             ps.setInt(2, productId);
             ps.setInt(3, quantity);
+
             DiscountDB discountDB = new DiscountDB();
-            if(discountDB.getDiscountByProductId(productId) != null) {
-                ps.setInt(4, discountDB.getDiscountByProductId(productId).getDiscountId());
+            Discount discount = discountDB.getDiscountByProductId(productId);
+            if (discount != null) {
+                ps.setInt(4, discount.getDiscountId());
             } else {
                 ps.setNull(4, Types.INTEGER);
             }
+
             ps.executeUpdate();
 
-        } catch (Exception e) {
-            System.out.println(e);
-        } finally {
-            closeConnection();
+        } catch (SQLException e) {
+            System.out.println("Error adding product to cart:");
+            e.printStackTrace();
         }
     }
+
 
     public void removeProductFromCart(int cartProductId) {
         String query = "DELETE FROM cart_products WHERE productId = ?";
